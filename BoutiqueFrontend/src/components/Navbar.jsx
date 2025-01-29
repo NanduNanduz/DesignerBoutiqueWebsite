@@ -1,4 +1,7 @@
 import React from 'react'
+import { Link} from "react-router-dom";
+
+
 
 const Navbar = () => {
   return (
@@ -448,7 +451,7 @@ const Navbar = () => {
                   <text
                     x="10"
                     y="50"
-                     fontFamily="Arial, sans-serif"
+                    fontFamily="Arial, sans-serif"
                     fontSize="34"
                     fontWeight="bold"
                   >
@@ -565,13 +568,23 @@ const Navbar = () => {
             </div>
             <div className="col-3 col-lg-auto">
               <ul className="list-unstyled d-flex m-0">
+
+
                 <li className="d-none d-lg-block">
+                  <Link to="/login" className="mx-3">
+                    <svg width={24} height={24} viewBox="0 0 24 24">
+                      <use xlinkHref="#user" />
+                    </svg>
+                  </Link>
+                </li>
+
+                {/* <li className="d-none d-lg-block">
                   <a href="profile.html" className="mx-3">
                     <svg width={24} height={24} viewBox="0 0 24 24">
                       <use xlinkHref="#user" />
                     </svg>
                   </a>
-                </li>
+                </li> */}
 
                 <li className="d-none d-lg-block">
                   <a href="wishlist.html" className="mx-3">
