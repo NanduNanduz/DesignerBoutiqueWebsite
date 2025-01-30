@@ -13,7 +13,6 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 
-
 const Background = styled(Box)({
   display: "flex",
   alignItems: "center",
@@ -33,13 +32,9 @@ const LoginCard = styled(Paper)({
 
 
 
-
-
-
 const Login = () => {
 
-
-   
+  
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -59,7 +54,7 @@ const Login = () => {
        if (res.data.token) {
          const token = res.data.token;
          sessionStorage.setItem("logintoken", token);
-         //if loken is generated it will navigate to employees page
+         //if token is generated it will navigate to home page
          const decodedToken = jwtDecode(token);
          sessionStorage.setItem("role", decodedToken.role);
          navigate("/");

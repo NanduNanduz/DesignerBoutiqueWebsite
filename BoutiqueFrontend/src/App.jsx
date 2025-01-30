@@ -9,8 +9,6 @@ import Main from './components/Main';
 const App = () => {
   return (
     <div>
-      {/* <Home/> */}
-     
 
       <Routes>
         <Route path="/login" element={<Login />}></Route>
