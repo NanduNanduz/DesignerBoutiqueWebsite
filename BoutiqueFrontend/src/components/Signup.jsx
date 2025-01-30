@@ -1,4 +1,141 @@
-import React from "react";
+
+// import React from "react";
+// import {
+//   Container,
+//   TextField,
+//   Button,
+//   Typography,
+//   Box,
+//   Paper,
+// } from "@mui/material";
+// import { styled } from "@mui/system";
+
+// const Background = styled(Box)({
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center",
+//   minHeight: "100vh", // Changed from height to minHeight for better responsiveness
+//   background: "linear-gradient(to right, #3A2D28, #A48374, #CBAD8D)",
+//  // Added padding to prevent overflow issues on small screens
+// });
+
+// const SignupCard = styled(Paper)({
+//   backgroundColor: "#CBAD8D",
+//   padding: "20px",
+//   width: "100%",
+//   maxWidth: "450px",
+//   borderRadius: "12px",
+//   boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
+//   textAlign: "center",
+//   marginTop: "20px", // Added margin-top
+//  // Added margin-bottom
+// });
+
+// const StyledLabel = styled(Typography)({
+//   fontSize: "14px",
+//   fontWeight: "bold",
+//   color: "#3A2D28",
+//   textAlign: "left",
+//   marginBottom: "5px",
+// });
+
+// const FormWrapper = styled(Box)({
+//   display: "flex",
+//   flexDirection: "column",
+//   gap: "12px",
+// });
+
+// const Signup = () => {
+//   return (
+//     <Background>
+//       <Container maxWidth="xs">
+//         <SignupCard elevation={3}>
+//           <Typography
+//             variant="h5"
+//             fontWeight="bold"
+//             style={{ color: "#3A2D28" }}
+//             gutterBottom
+//           >
+//             Create an Account
+//           </Typography>
+//           <Typography
+//             variant="body2"
+//             style={{ color: "#6D4C41", marginBottom: "16px" }}
+//           >
+//             Sign up to get started
+//           </Typography>
+
+//           <FormWrapper component="form" noValidate autoComplete="off">
+//             <Box>
+//               <StyledLabel>Name</StyledLabel>
+//               <TextField fullWidth variant="outlined" size="small" />
+//             </Box>
+
+//             <Box>
+//               <StyledLabel>Email</StyledLabel>
+//               <TextField
+//                 fullWidth
+//                 type="email"
+//                 variant="outlined"
+//                 size="small"
+//               />
+//             </Box>
+
+//             <Box>
+//               <StyledLabel>Phone Number</StyledLabel>
+//               <TextField fullWidth type="tel" variant="outlined" size="small" />
+//             </Box>
+
+//             <Box>
+//               <StyledLabel>Address</StyledLabel>
+//               <TextField
+//                 fullWidth
+//                 multiline
+//                 rows={2}
+//                 variant="outlined"
+//                 size="small"
+//               />
+//             </Box>
+
+//             <Box>
+//               <StyledLabel>Password</StyledLabel>
+//               <TextField
+//                 fullWidth
+//                 type="password"
+//                 variant="outlined"
+//                 size="small"
+//               />
+//             </Box>
+
+//             <Button
+//               fullWidth
+//               variant="contained"
+//               sx={{
+//                 mt: 2,
+//                 bgcolor: "#A48374",
+//                 color: "#F1EDE6",
+//                 "&:hover": { bgcolor: "#8F7260" },
+//                 py: 1.2,
+//                 fontWeight: "bold",
+//                 borderRadius: "8px",
+//               }}
+//             >
+//               Sign Up
+//             </Button>
+//           </FormWrapper>
+//         </SignupCard>
+//       </Container>
+//     </Background>
+//   );
+// };
+
+// export default Signup;
+
+
+
+
+
+import React, { useState } from "react";
 import {
   Container,
   TextField,
@@ -12,24 +149,21 @@ import { styled } from "@mui/system";
 const Background = styled(Box)({
   display: "flex",
   alignItems: "center",
-  justifyContent: "center", // Centering vertically
-  height: "100vh", // Ensure the background fills the viewport height
+  justifyContent: "center",
+  minHeight: "100vh",
   background: "linear-gradient(to right, #3A2D28, #A48374, #CBAD8D)",
+  padding: "40px 20px",
 });
 
 const SignupCard = styled(Paper)({
   backgroundColor: "#CBAD8D",
-  padding: "20px", // Reduced padding for a smaller card
+  padding: "20px",
   width: "100%",
-  maxWidth: "600px", // Reduced width to make the card smaller
-  height: "auto", // Let the height adjust based on content
+  maxWidth: "450px",
+  borderRadius: "12px",
+  boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
   textAlign: "center",
-  borderRadius: "10px",
-  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between", // Distribute space evenly
-  minHeight: "400px", // Set a minimum height to ensure it’s not too small
+  marginTop: "20px",
 });
 
 const StyledLabel = styled(Typography)({
@@ -37,61 +171,182 @@ const StyledLabel = styled(Typography)({
   fontWeight: "bold",
   color: "#3A2D28",
   textAlign: "left",
-  display: "block",
-  marginBottom: "5px", // Reduced margin
+  marginBottom: "5px",
+});
+
+const FormWrapper = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
 });
 
 const Signup = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (!/^[A-Za-z\s]+$/.test(formData.name)) {
+      newErrors.name = "Name should contain only letters and spaces";
+    } else if (formData.name.length < 3) {
+      newErrors.name = "Name must be at least 3 characters long";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Enter a valid email";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+    }
+
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required";
+    } else if (formData.address.length < 5) {
+      newErrors.address = "Address must be at least 5 characters";
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only numbers for phone field
+    if (name === "phone" && !/^\d*$/.test(value)) return;
+
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log("Form submitted successfully", formData);
+      alert("Form submitted successfully!");
+    }
+  };
+
   return (
     <Background>
-      <Container maxWidth="sm">
+      <Container maxWidth="xs">
         <SignupCard elevation={3}>
           <Typography
-            variant="h5" // Changed to a smaller font size
+            variant="h5"
             fontWeight="bold"
+            style={{ color: "#3A2D28" }}
             gutterBottom
-            style={{ color: "#A48374" }}
           >
             Create an Account
           </Typography>
-          <p className="text-[#A48374] mb-4">Sign up to get started</p>{" "}
-          {/* Reduced margin-bottom */}
-          <Box component="form" noValidate autoComplete="off">
-            <StyledLabel>Name</StyledLabel>
-            <TextField fullWidth variant="outlined" margin="normal" />
+          <Typography
+            variant="body2"
+            style={{ color: "#6D4C41", marginBottom: "16px" }}
+          >
+            Sign up to get started
+          </Typography>
 
-            <StyledLabel>Email</StyledLabel>
-            <TextField
-              fullWidth
-              type="email"
-              variant="outlined"
-              margin="normal"
-            />
+          <FormWrapper
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit}
+          >
+            <Box>
+              <StyledLabel>Name</StyledLabel>
+              <TextField
+                fullWidth
+                variant="outlined"
+                size="small"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                error={!!errors.name}
+                helperText={errors.name}
+              />
+            </Box>
 
-            <StyledLabel>Phone Number</StyledLabel>
-            <TextField
-              fullWidth
-              type="tel"
-              variant="outlined"
-              margin="normal"
-            />
+            <Box>
+              <StyledLabel>Email</StyledLabel>
+              <TextField
+                fullWidth
+                type="email"
+                variant="outlined"
+                size="small"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+            </Box>
 
-            <StyledLabel>Address</StyledLabel>
-            <TextField
-              fullWidth
-              multiline
-              rows={2} // Reduced rows for Address
-              variant="outlined"
-              margin="normal"
-            />
+            <Box>
+              <StyledLabel>Phone Number</StyledLabel>
+              <TextField
+                fullWidth
+                type="tel"
+                variant="outlined"
+                size="small"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                error={!!errors.phone}
+                helperText={errors.phone}
+                inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              />
+            </Box>
 
-            <StyledLabel>Password</StyledLabel>
-            <TextField
-              fullWidth
-              type="password"
-              variant="outlined"
-              margin="normal"
-            />
+            <Box>
+              <StyledLabel>Address</StyledLabel>
+              <TextField
+                fullWidth
+                multiline
+                rows={2}
+                variant="outlined"
+                size="small"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                error={!!errors.address}
+                helperText={errors.address}
+              />
+            </Box>
+
+            <Box>
+              <StyledLabel>Password</StyledLabel>
+              <TextField
+                fullWidth
+                type="password"
+                variant="outlined"
+                size="small"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                error={!!errors.password}
+                helperText={errors.password}
+              />
+            </Box>
 
             <Button
               fullWidth
@@ -100,13 +355,16 @@ const Signup = () => {
                 mt: 2,
                 bgcolor: "#A48374",
                 color: "#F1EDE6",
-                "&:hover": { bgcolor: "#A48374" },
-                py: 1, // Reduced padding
+                "&:hover": { bgcolor: "#8F7260" },
+                py: 1.2,
+                fontWeight: "bold",
+                borderRadius: "8px",
               }}
+              type="submit"
             >
               Sign Up
             </Button>
-          </Box>
+          </FormWrapper>
         </SignupCard>
       </Container>
     </Background>
@@ -114,124 +372,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-// import React from "react";
-
-// const Signup = () => {
-//   return (
-//     <div style={styles.background}>
-//       <div style={styles.card}>
-//         <h2 style={styles.heading}>Create an Account</h2>
-//         <p style={styles.subHeading}>Sign up to get started</p>
-//         <form style={styles.form}>
-//           <label style={styles.label}>Name</label>
-//           <input
-//             style={styles.input}
-//             type="text"
-//             placeholder="Enter your name"
-//           />
-
-//           <label style={styles.label}>Email</label>
-//           <input
-//             style={styles.input}
-//             type="email"
-//             placeholder="Enter your email"
-//           />
-
-//           <label style={styles.label}>Phone Number</label>
-//           <input
-//             style={styles.input}
-//             type="tel"
-//             placeholder="Enter your phone number"
-//           />
-
-//           <label style={styles.label}>Address</label>
-//           <textarea
-//             style={styles.textarea}
-//             rows="2"
-//             placeholder="Enter your address"
-//           ></textarea>
-
-//           <label style={styles.label}>Password</label>
-//           <input
-//             style={styles.input}
-//             type="password"
-//             placeholder="Enter your password"
-//           />
-
-//           <button type="submit" style={styles.button}>
-//             Sign Up
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
-
-// const styles = {
-//   background: {
-//     display: "flex",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     height: "100vh",
-//     background: "linear-gradient(to right, #3A2D28, #A48374, #CBAD8D)",
-//     margin: 0,
-//   },
-//   card: {
-//     backgroundColor: "#CBAD8D",
-//     padding: "20px",
-//     width: "100%",
-//     maxWidth: "400px", // Reduced width
-//     height: "auto", // Allow height to adjust based on content
-//     textAlign: "center",
-//     borderRadius: "10px",
-//     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-//     marginTop: "5%", // Added margin-top to create space above the card
-//   },
-//   heading: {
-//     color: "#A48374",
-//     margin: "0 0 10px",
-//     fontWeight: "bold",
-//     fontSize: "24px", // Smaller heading
-//   },
-//   subHeading: {
-//     color: "#A48374",
-//     marginBottom: "20px",
-//     fontSize: "16px",
-//   },
-//   form: {
-//     display: "flex",
-//     flexDirection: "column",
-//   },
-//   label: {
-//     textAlign: "left",
-//     fontWeight: "bold",
-//     marginBottom: "5px",
-//     color: "#3A2D28",
-//   },
-//   input: {
-//     padding: "10px",
-//     marginBottom: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "5px",
-//   },
-//   textarea: {
-//     padding: "5px",
-//     marginBottom: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "5px",
-//     resize: "none", // Prevent resizing
-//   },
-//   button: {
-//     padding: "12px",
-//     backgroundColor: "#A48374",
-//     color: "#F1EDE6",
-//     border: "none",
-//     borderRadius: "5px",
-//     cursor: "pointer",
-//     fontSize: "16px",
-//   },
-// };
-
-// export default Signup;
-
