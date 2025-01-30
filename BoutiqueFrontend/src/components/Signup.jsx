@@ -145,6 +145,10 @@ import {
   Paper,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import axiosInstance from "../axiosInterceptor";
+import { Link, useNavigate } from "react-router-dom";
+
+
 
 const Background = styled(Box)({
   display: "flex",
@@ -181,71 +185,47 @@ const FormWrapper = styled(Box)({
 });
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     address: "",
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const validateForm = () => {
-    let newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    } else if (!/^[A-Za-z\s]+$/.test(formData.name)) {
-      newErrors.name = "Name should contain only letters and spaces";
-    } else if (formData.name.length < 3) {
-      newErrors.name = "Name must be at least 3 characters long";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Enter a valid email";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone number must be exactly 10 digits";
-    }
-
-    if (!formData.address.trim()) {
-      newErrors.address = "Address is required";
-    } else if (formData.address.length < 5) {
-      newErrors.address = "Address must be at least 5 characters";
-    }
-
-    if (!formData.password.trim()) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
 
-    // Allow only numbers for phone field
-    if (name === "phone" && !/^\d*$/.test(value)) return;
 
-    setFormData({ ...formData, [name]: value });
-  };
+   const handleSubmit = async (e) => {
+     e.preventDefault();
+    
+     try {
+       const response = await axiosInstance.post(
+         "http://localhost:3000/users/adduser",
+         form
+       );
+       alert("Registration Successfull");
+       setForm({name: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: ""});
+       navigate("/login");
+     } catch (error) {
+       alert("Failed to Signup. Please try again.");
+       console.error(error);
+     }
+   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Form submitted successfully", formData);
-      alert("Form submitted successfully!");
-    }
-  };
+
+
 
   return (
     <Background>
@@ -279,10 +259,8 @@ const Signup = () => {
                 variant="outlined"
                 size="small"
                 name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                error={!!errors.name}
-                helperText={errors.name}
+                value={form.name}
+                onChange={handleChange}
               />
             </Box>
 
@@ -294,10 +272,8 @@ const Signup = () => {
                 variant="outlined"
                 size="small"
                 name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                error={!!errors.email}
-                helperText={errors.email}
+                value={form.email}
+                onChange={handleChange}
               />
             </Box>
 
@@ -308,12 +284,9 @@ const Signup = () => {
                 type="tel"
                 variant="outlined"
                 size="small"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                error={!!errors.phone}
-                helperText={errors.phone}
-                inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                name="phoneNumber"
+                value={form.phoneNumber}
+                onChange={handleChange}
               />
             </Box>
 
@@ -326,10 +299,8 @@ const Signup = () => {
                 variant="outlined"
                 size="small"
                 name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                error={!!errors.address}
-                helperText={errors.address}
+                value={form.address}
+                onChange={handleChange}
               />
             </Box>
 
@@ -341,10 +312,8 @@ const Signup = () => {
                 variant="outlined"
                 size="small"
                 name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                error={!!errors.password}
-                helperText={errors.password}
+                value={form.password}
+                onChange={handleChange}
               />
             </Box>
 
