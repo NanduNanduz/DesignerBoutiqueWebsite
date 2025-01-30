@@ -437,7 +437,10 @@ const Navbar = () => {
         </div>
       </div>
 
-      <nav className="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
+      <nav
+        className="navbar navbar-expand-lg text-uppercase fs-6 p-3 border-bottom align-items-center "
+        style={{ backgroundColor: "#EED9C4", color: "white" }}
+      >
         <div className="container-fluid">
           <div className="row justify-content-between align-items-center w-100">
             <div className="col-auto">
@@ -568,8 +571,6 @@ const Navbar = () => {
             </div>
             <div className="col-3 col-lg-auto">
               <ul className="list-unstyled d-flex m-0">
-
-
                 <li className="d-none d-lg-block">
                   <Link to="/login" className="mx-3">
                     <svg width={24} height={24} viewBox="0 0 24 24">
