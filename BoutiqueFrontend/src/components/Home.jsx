@@ -1,54 +1,4 @@
 
-// import React, { useEffect } from "react";
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-
-// const Home = () => {
-//   useEffect(() => {
-//     document.body.style.overflowX = "hidden";
-//     document.documentElement.style.overflowX = "hidden";
-//   }, []);
-
-//   const settings = {
-//     dots: true,
-//     infinite: true,
-//     speed: 400,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//     autoplay: true,
-//     autoplaySpeed: 2000,
-//     arrows: false, // Optional: Hide arrows if not needed
-//   };
-
-//   return (
-//     <div style={{ width: "100%", overflow: "hidden" }}>
-//       <Slider {...settings}>
-//         {[
-//           "https://www.nameerabyfarooq.com/cdn/shop/articles/Bridal_Lehenga_A_Timeless_Indian_Garment_for_Weddings_and_Beyond_1920x.jpg?v=1677172193",
-//           "https://www.mohifashion.com/cdn/shop/articles/BB_216433_Final_320eb394-2ae4-42e1-91f1-7e342fc976df.jpg?v=1718363593&width=1100",
-//           "https://www.nameerabyfarooq.com/cdn/shop/collections/Indian_Wedding_Dresses_1200x630.jpg?v=1625680385",
-//         ].map((src, index) => (
-//           <div key={index} style={{ width: "100%", height: "80vh" }}>
-//             <img
-//               src={src}
-//               alt={`Slide ${index + 1}`}
-//               style={{
-//                 width: "100%",
-//                 height: "100%",
-//                 objectFit: "cover", // Ensures full coverage
-//               }}
-//             />
-//           </div>
-//         ))}
-//       </Slider>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-
 
 import React, { useEffect } from "react";
 import Slider from "react-slick";
@@ -62,30 +12,33 @@ const Home = () => {
   }, []);
 
   const heroSettings = {
-    dots: true,
+   
     infinite: true,
-    speed: 400,
+    speed: 2000,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     arrows: false,
   };
 
-  const productSliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
-    arrows: true,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1 } },
-    ],
-  };
+const productSliderSettings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+  arrows: true,
+  centerMode: true,
+  responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 3 } }, // Tablets & small desktops
+    { breakpoint: 768, settings: { slidesToShow: 2 } }, // Smaller tablets & large phones
+    { breakpoint: 480, settings: { slidesToShow: 1 } }, // Mobile devices
+  ],
+};
+
 
   return (
     <div style={{ width: "100%", overflow: "hidden" }}>
@@ -93,8 +46,8 @@ const Home = () => {
       <Slider {...heroSettings}>
         {[
           "https://www.nameerabyfarooq.com/cdn/shop/articles/Bridal_Lehenga_A_Timeless_Indian_Garment_for_Weddings_and_Beyond_1920x.jpg?v=1677172193",
-          "https://www.mohifashion.com/cdn/shop/articles/BB_216433_Final_320eb394-2ae4-42e1-91f1-7e342fc976df.jpg?v=1718363593&width=1100",
-          "https://www.nameerabyfarooq.com/cdn/shop/collections/Indian_Wedding_Dresses_1200x630.jpg?v=1625680385",
+          "https://www.nameerabyfarooq.com/cdn/shop/articles/A_Modern_Twist__Fusion_Bridal_Dresses_for_the_Trendy_Bride_1920x.jpg?v=1690522728",
+          "https://www.nameerabyfarooq.com/cdn/shop/collections/Pakistani-Bridal-Dresses-2018_1200x630.jpg?v=1662560423",
         ].map((src, index) => (
           <div key={index} className="hero-slide">
             <img src={src} alt={`Slide ${index + 1}`} className="hero-image" />
@@ -122,26 +75,26 @@ const Home = () => {
 
       {/* CSS Fixes */}
       <style>{`
-        .hero-slide {
-          width: 100%;
-          height: 80vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-        }
+       .hero-slide {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-        .hero-image {
+.hero-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Show the full image without cropping */
-  max-height: 80vh;
-  background-color: black; /* Optional: Black background for better appearance */
+  object-fit: cover; /* Fill the entire slide */
+  object-position: top center; /* Keep the top part visible */
 }
+
 
         .product-slider-section {
           padding: 40px 20px;
-          background-color: #f9f9f9;
+          background-color:#D1C7BD;
           text-align: center;
         }
 
@@ -159,22 +112,31 @@ const Home = () => {
           align-items: center;
         }
 
-        .product-slide img {
-          width: 100%;
-          max-width: 300px;
-          height: auto;
-          border-radius: 10px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease-in-out;
-        }
+      .product-slide img {
+  width: 100%;
+  max-width: 280px; /* Adjust width for better alignment */
+  height: 400px; /* Set a fixed height */
+  object-fit: cover; /* Ensure images fill the box without distortion */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
 
         .product-slide img:hover {
           transform: scale(1.05);
         }
+
+
+          /* Fix alignment inside the slider */
+  .slick-slide {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+      }
       `}</style>
     </div>
   );
 };
 
 export default Home;
-
