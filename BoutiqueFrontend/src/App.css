@@ -106,7 +106,7 @@
 
 /* New Collections */
 
-.product-item {
+/* .product-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,54 +132,10 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 10px;
-}
+} */
 
 
-/* .custom-swiper-prev,
-.custom-swiper-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #fff;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  z-index: 10;
-}
-
-.custom-swiper-prev {
-  left: -50px; 
-}
-
-.custom-swiper-next {
-  right: -50px;
-}
-
-.custom-swiper-prev:hover,
-.custom-swiper-next:hover {
-  background: #f8f9fa;
-}
-
-@media (max-width: 768px) {
-  .custom-swiper-prev {
-    left: -20px;
-  }
-  .custom-swiper-next {
-    right: -20px;
-  }
-}
- */
-
-
-
-
-
- .custom-swiper-prev,
+ /* .custom-swiper-prev,
 .custom-swiper-next {
   position: absolute;
   top: 50%;
@@ -213,7 +169,8 @@
   .custom-swiper-next {
     right: -20px;
   }
-}
+} */
+
 
 /* Book */
 
