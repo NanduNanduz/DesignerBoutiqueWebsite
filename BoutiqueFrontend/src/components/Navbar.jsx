@@ -555,15 +555,15 @@ const Navbar = () => {
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="#">
+                      <Link className="nav-link" to="/new-collections">
                         New Collections
-                      </a>
+                      </Link>
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="#">
+                      <Link className="nav-link" to="/book-appointment">
                         Customized
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
