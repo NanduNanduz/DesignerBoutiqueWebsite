@@ -1,0 +1,125 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* .............Home............ */
+
+/* Hero Slider Wrapper */
+.hero-slider-wrapper {
+  background-color: #f5e6da;
+}
+
+/* Remove global background */
+.slick-slider {
+  background-color: transparent !important;
+}
+
+.hero-slide {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.product-slider-section {
+  padding: 20px 20px;
+  background-color: #d1c7bd;
+  text-align: center;
+  position: relative;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-slide {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-slide img {
+  width: 100%;
+  max-width: 280px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-slide img:hover {
+  transform: scale(1.05);
+}
+
+/* Fix alignment inside the slider */
+.slick-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Custom Large Arrows for Product Slider */
+.product-slider-section .slick-prev,
+.product-slider-section .slick-next {
+  font-size: 32px; /* Increase arrow size */
+  width: 130px;
+  height: 60px;
+  z-index: 10;
+}
+
+.product-slider-section .slick-prev {
+  left: -60px; /* Move left arrow outward */
+}
+
+.product-slider-section .slick-next {
+  right: -60px; /* Move right arrow outward */
+}
+
+.product-slider-section .slick-prev::before,
+.product-slider-section .slick-next::before {
+  font-size: 60px; /* Increase icon size */
+  color: #335; /* Darker color for visibility */
+}
+
+.product-slider-section .slick-prev:hover::before,
+.product-slider-section .slick-next:hover::before {
+  color: #111; /* Darken on hover */
+}
+
+
+
+/* New Collections */
+
+.product-item img {
+  width: 100%;
+  max-width: 280px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.product-item {
+  justify-content: center;
+  align-items: center;
+}
+
+
+
