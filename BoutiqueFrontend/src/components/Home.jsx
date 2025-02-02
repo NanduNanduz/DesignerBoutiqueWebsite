@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Newcollections from "./Newcollections";
 import Bookappointment from "./Bookappointment";
+import Footer from "./Footer";
 
 const Home = () => {
 
@@ -80,8 +81,9 @@ const Home = () => {
           ))}
         </Slider>
       </section>
-      <Newcollections />
+      <Newcollections/>
       <Bookappointment/>
+      <Footer/>
     </div>
   );
 };
