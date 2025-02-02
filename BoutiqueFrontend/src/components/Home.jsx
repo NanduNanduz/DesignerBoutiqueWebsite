@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Newcollections from "./Newcollections";
+import Bookappointment from "./Bookappointment";
 
 const Home = () => {
 
@@ -80,6 +81,7 @@ const Home = () => {
         </Slider>
       </section>
       <Newcollections />
+      <Bookappointment/>
     </div>
   );
 };
