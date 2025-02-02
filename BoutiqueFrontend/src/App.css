@@ -225,7 +225,8 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* Adjust based on your desired section height */
-    color: white;
+    color: rgb(136, 40, 40);
+   
 }
 
 .consultation-content {
@@ -246,15 +247,19 @@
 .book-button {
     font-size: 1.5em;
     padding: 15px 30px;
-    background-color: #ff6347; /* Adjust color as per your theme */
-    color: white;
+    
+    /* background-color: #702f10;  */
+     background-color: #855522;
+    /* background-color: #aa6f2f; */
+    /* Adjust color as per your theme */
+    color: black;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 50px;
     transition: background-color 0.3s ease;
 }
 
 .book-button:hover {
-    background-color: #d9534f; /* Darken color on hover */
+    background-color: #aa3803; /* Darken color on hover */
 }
 
 

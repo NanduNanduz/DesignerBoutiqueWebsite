@@ -3,7 +3,7 @@ import React from "react";
 const Bookappointment = () => {
   const sectionStyle = {
     backgroundImage:
-      'url("https://www.nameerabyfarooq.com/cdn/shop/articles/A_Modern_Twist__Fusion_Bridal_Dresses_for_the_Trendy_Bride_1920x.jpg?v=1690522728")', // Replace with your image URL
+      'url("https://dlibaas.com/cdn/shop/files/dollar-gill-oH-PNVWykUo-unsplash_1_1024x1024.png?v=1649104034")', // Replace with your image URL
     backgroundSize: "cover",
     backgroundPosition: "center",
     height: "100vh", // You can adjust the height as needed
@@ -12,8 +12,10 @@ const Bookappointment = () => {
   return (
     <section className="consultation-section" style={sectionStyle}>
       <div className="consultation-content">
-        <h1>Schedule Your Personalized Design Consultation</h1>
-        <p>
+        <h1 style={{ color: "rgb(121, 3, 3)" }}>
+          Schedule Your Personalized Design Consultation
+        </h1>
+        <p style={{ color: "rgb(0, 0, 0)" }}>
           Connect with our expert designers either online or in-store to craft
           your ideal outfit.
         </p>
