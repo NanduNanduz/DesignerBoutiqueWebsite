@@ -309,7 +309,7 @@ const Navbar = () => {
           </defs>
         </svg>
 
-        <div className="preloader text-white fs-6 text-uppercase overflow-hidden" />
+        <div className=" text-white fs-6 text-uppercase overflow-hidden" />
 
         {/* SEARCH ICON  */}
         {/* <div className="search-popup">
