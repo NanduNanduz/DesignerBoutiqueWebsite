@@ -10,6 +10,15 @@ app.use(cors());
 require("dotenv").config();
 require("./db/connection");
 
+const connectCloudinary = require("./db/cloudinary");
+
+// Connect to Cloudinary before starting the server
+connectCloudinary()
+  .then(() => console.log("Cloudinary is Ready to Use"))
+  .catch((err) => console.error("Cloudinary Connection Failed:", err));
+
+
+
 const userRoutes = require("./routes/userRoutes");
 app.use("/users", userRoutes);
 
