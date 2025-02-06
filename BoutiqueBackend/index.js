@@ -7,6 +7,8 @@ app.use(morgan("dev"));
 const cors = require("cors");
 app.use(cors());
 
+app.use(express.urlencoded({ extended: true })); 
+
 require("dotenv").config();
 require("./db/connection");
 
