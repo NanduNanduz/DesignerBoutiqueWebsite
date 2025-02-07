@@ -14,6 +14,8 @@ const upload = require('../middleware/multer');
 
 const { v2: cloudinary } = require("cloudinary");
 
+
+//--------------add product--------------------
 router.post(
   "/add",
   upload.fields([
@@ -114,119 +116,58 @@ router.post(
 );
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Add product route (Directly inside routes)
-// router.post(
-//   "/add",
-//   upload.fields([
-//     { name: "image1", maxCount: 1 },
-//     { name: "image2", maxCount: 1 },
-//     { name: "image3", maxCount: 1 },
-//     { name: "image4", maxCount: 1 },
-//   ]),
-//   async (req, res) => {
-//     try {
-
-//         console.log("Received Files:", req.files);
-//       const {
-//         name,
-//         description,
-//         price,
-//         category,
-//         subCategory,
-//         sizes,
-//         bestseller,
-//       } = req.body;
-
-//       if (
-//         !req.files ||
-//         !req.files.image1 ||
-//         !req.files.image2 ||
-//         !req.files.image3 ||
-//         !req.files.image4
-//       ) {
-//         return res
-//           .status(400)
-//           .json({ success: false, message: "All images are required!" });
-//       }
-
-//       const image1 = req.files.image1[0].path;
-//       const image2 = req.files.image2[0].path;
-//       const image3 = req.files.image3[0].path;
-//       const image4 = req.files.image4[0].path;
-
-//       const newProduct = new productModel({
-//         name,
-//         description,
-//         price,
-//         category,
-//         subCategory,
-//         sizes,
-//         bestseller,
-//         image: [image1, image2, image3, image4], // Store multiple image paths
-//         date: Date.now(),
-//       });
-
-//       await newProduct.save();
-
-//       res
-//         .status(201)
-//         .json({ success: true, message: "Product added successfully!" });
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ success: false, message: error.message });
-//     }
-//   }
-// );
-
-
-
-
-
 //list product
 router.get('/list', async(req,res)=>{
+  try {
+    const products = await productModel.find({});
+    res.json({success:true,products})
+    
+  } catch (error) {
+    console.log(error)
+    res.json({success: false, message: error.message})
+  }
 
 })
 
 
 //single product info
-router.get('/single', async(req,res)=>{
+router.post('/single', async(req,res)=>{
+  try {
+    const {productId} = req.body
+    const product = await productModel.findById(productId)
+    res.json({success:true, product})
+  } catch (error) {
+
+     console.log(error);
+     res.json({ success: false, message: error.message });
+    
+  }
 
 })
-
 
 //remove product
-router.post('/remove', async(req,res)=>{
+router.post("/remove", async (req, res) => {
+  try {
+    const { id } = req.body; // Extract ID from request body
 
-})
+    if (!id) {
+      return res.json({ success: false, message: "Product ID is required" });
+    }
+
+    const deletedProduct = await productModel.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      return res.json({ success: false, message: "Product not found" });
+    }
+
+    res.json({ success: true, message: "Product removed successfully" });
+  } catch (error) {
+    console.log("Error in /remove:", error);
+    res.json({ success: false, message: error.message });
+  }
+});
+
+
 
 
 module.exports = router;
