@@ -14,10 +14,13 @@ const upload = require('../middleware/multer');
 
 const { v2: cloudinary } = require("cloudinary");
 
+const adminAuth = require('../middleware/adminAuth')
+
+
 
 //--------------add product--------------------
 router.post(
-  "/add",
+  "/add",adminAuth,
   upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
@@ -146,7 +149,7 @@ router.post('/single', async(req,res)=>{
 })
 
 //remove product
-router.post("/remove", async (req, res) => {
+router.post("/remove",adminAuth, async (req, res) => {
   try {
     const { id } = req.body; // Extract ID from request body
 
