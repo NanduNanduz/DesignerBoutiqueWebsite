@@ -13,6 +13,7 @@ const bcrypt = require("bcryptjs");
 const validator = require("validator")
 
 
+
 const createToken = (id) =>{
   return jwt.sign({id},process.env.JWT_SECRET)
 }
@@ -98,9 +99,24 @@ router.post('/login',async(req,res)=>{
 })
 
 
-router.post('/admin',async(req,res)=>{
+// Admin Login
+router.post('/admin', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-})
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      // Generate token with email in the payload
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+});
 
 
 module.exports = router;
