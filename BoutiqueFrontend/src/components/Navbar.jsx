@@ -537,7 +537,7 @@ const Navbar = () => {
                         </li>
                         <li>
                           <a
-                            href="index.html"
+                            href="/lehenga"
                             className="dropdown-item item-anchor"
                           >
                             Lehenga{" "}
@@ -545,7 +545,7 @@ const Navbar = () => {
                         </li>
                         <li>
                           <a
-                            href="index.html"
+                            href="/saree"
                             className="dropdown-item item-anchor"
                           >
                             Saree{" "}
