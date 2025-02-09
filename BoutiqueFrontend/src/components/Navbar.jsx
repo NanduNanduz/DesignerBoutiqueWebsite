@@ -529,7 +529,7 @@ const Navbar = () => {
                       >
                         <li>
                           <a
-                            href="index.html"
+                            href="/kurti"
                             className="dropdown-item item-anchor"
                           >
                             Kurti
