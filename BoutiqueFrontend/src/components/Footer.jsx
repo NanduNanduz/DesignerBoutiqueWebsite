@@ -61,7 +61,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
+      
       <div className="footer-bottom">
         <p style={{ color: "#CBAD8D" }}>
           &copy; {new Date().getFullYear()}{" "}
