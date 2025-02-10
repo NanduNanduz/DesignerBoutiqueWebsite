@@ -72,14 +72,13 @@ const Signup = () => {
     
      try {
        const response = await axiosInstance.post(
-         "http://localhost:3000/users/adduser",
+         "http://localhost:3000/users/register",
          form
        );
        alert("Registration Successfull");
        setForm({name: "",
     email: "",
-    phoneNumber: "",
-    address: "",
+  
     password: ""});
        navigate("/login");
      } catch (error) {
@@ -139,32 +138,6 @@ const Signup = () => {
               />
             </Box>
 
-            <Box>
-              <StyledLabel>Phone Number</StyledLabel>
-              <TextField
-                fullWidth
-                type="tel"
-                variant="outlined"
-                size="small"
-                name="phoneNumber"
-                value={form.phoneNumber}
-                onChange={handleChange}
-              />
-            </Box>
-
-            <Box>
-              <StyledLabel>Address</StyledLabel>
-              <TextField
-                fullWidth
-                multiline
-                rows={2}
-                variant="outlined"
-                size="small"
-                name="address"
-                value={form.address}
-                onChange={handleChange}
-              />
-            </Box>
 
             <Box>
               <StyledLabel>Password</StyledLabel>

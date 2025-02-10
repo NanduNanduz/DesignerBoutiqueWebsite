@@ -444,7 +444,7 @@ const Navbar = () => {
         <div className="container-fluid">
           <div className="row justify-content-between align-items-center w-100">
             <div className="col-auto">
-              <a className="navbar-brand text-white" href="index.html">
+              <a className="navbar-brand text-white" href="/">
                 <svg
                   width="250"
                   height="70"
@@ -502,7 +502,7 @@ const Navbar = () => {
                     <li className="nav-item dropdown">
                       <a
                         className="nav-link "
-                        href="#"
+                        href="/"
                         id="dropdownShop"
                         data-bs-toggle="dropdown"
                         aria-haspopup="true"
