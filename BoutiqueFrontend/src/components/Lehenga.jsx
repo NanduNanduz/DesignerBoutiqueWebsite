@@ -116,6 +116,7 @@ const lehenga = () => {
           <FormGroup>
             <FormControlLabel control={<Checkbox />} label="Cotton" />
             <FormControlLabel control={<Checkbox />} label="Printed" />
+            <FormControlLabel control={<Checkbox />} label="Embroidered" />
           </FormGroup>
         </Box>
 

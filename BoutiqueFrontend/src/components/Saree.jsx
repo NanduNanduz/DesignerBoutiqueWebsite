@@ -114,9 +114,9 @@ const saree = () => {
             Type
           </Typography>
           <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Anarkali" />
-            <FormControlLabel control={<Checkbox />} label="Cotton" />
-            <FormControlLabel control={<Checkbox />} label="Printed" />
+            <FormControlLabel control={<Checkbox />} label="Fabric" />
+            <FormControlLabel control={<Checkbox />} label="Georgette" />
+            <FormControlLabel control={<Checkbox />} label="Silk" />
           </FormGroup>
         </Box>
 
@@ -139,7 +139,7 @@ const saree = () => {
                 color: "#A48374",
               }}
             >
-              saree
+              Saree
             </Typography>
             <Select
               value={sort}
