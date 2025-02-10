@@ -52,8 +52,6 @@ const Signup = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phoneNumber: "",
-    address: "",
     password: "",
   });
 
