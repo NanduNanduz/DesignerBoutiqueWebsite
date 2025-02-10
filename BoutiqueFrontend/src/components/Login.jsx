@@ -57,10 +57,15 @@ const Login = () => {
          //if token is generated it will navigate to home page
          const decodedToken = jwtDecode(token);
          sessionStorage.setItem("role", decodedToken.role);
-         navigate("/");
+
+         //  Redirect based on role
+         if (decodedToken.role === "admin") {
+           navigate("/admin-dashboard"); // Redirect admin to dashboard
+         } else {
+           navigate("/"); // Redirect normal users to home page
+         }
        } else {
-         //otherwise prohibited (stay there it self)
-         navigate("/login");
+         navigate("/login"); // Stay on login page if failed
        }
      })
      .catch((error) => {
