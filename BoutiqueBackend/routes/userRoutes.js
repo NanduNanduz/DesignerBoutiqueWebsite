@@ -52,7 +52,8 @@ router.post('/register',async(req,res)=>{
     const newUser  = new userModel({
       name,
       email,
-      password:hashedPassword
+      password:hashedPassword,
+      role: "user",
     })
 
     // save to db 
@@ -73,30 +74,80 @@ router.post('/register',async(req,res)=>{
 } )
 
 
-//User Login 
-router.post('/login',async(req,res)=>{
-  try {
+// //User Login 
+// router.post('/login',async(req,res)=>{
+//   try {
     
-    const {email,password} = req.body;
-    const user = await userModel.findOne({email});
-    if(!user){
-      return res.json({ success: false, message: "User doesn't exists" });
+//     const {email,password} = req.body;
+//     const user = await userModel.findOne({email});
+//     if(!user){
+//       return res.json({ success: false, message: "User doesn't exists" });
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password)
+//     // if password also match then generate a token and send to the user
+//     if(isMatch){
+//       const token  = createToken(user._id)
+//       res.json({success:true,token})
+//     }
+//     else{
+//       res.json({success:false, message:'Invalid credentials'})
+//     }
+//   }
+//    catch (error) {
+//      console.log(error);
+//      res.json({ success: false, message: error.message });
+//   }
+// })
+
+
+
+
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find the user by email
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
-    const isMatch = await bcrypt.compare(password, user.password)
-    // if password also match then generate a token and send to the user
-    if(isMatch){
-      const token  = createToken(user._id)
-      res.json({success:true,token})
+
+    // Check if the password matches
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid credentials" });
     }
-    else{
-      res.json({success:false, message:'Invalid credentials'})
-    }
+
+    // Create JWT payload including the role
+    const payload = {
+      id: user._id,
+      email: user.email,
+      role: user.role, // ✅ Include role in token
+    };
+
+    // Generate token with a secret key
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Send the token and role in the response
+    res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      token: token,
+      role: user.role, // ✅ Send role to frontend
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
-   catch (error) {
-     console.log(error);
-     res.json({ success: false, message: error.message });
-  }
-})
+});
+
+
 
 
 // Admin Login
