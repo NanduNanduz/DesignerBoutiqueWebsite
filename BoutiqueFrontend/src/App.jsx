@@ -56,7 +56,8 @@ import AdminDashboard from "./components/AdminDashboard";
 import PrivateRoutes from "./components/PrivateRoutes"; 
 import ProductItem from './components/ProductItem';
 import Cart from './components/Cart';
-import CheckOut from './components/CheckOut'
+import CheckOut from './components/CheckOut';
+import BookingForm from './components/BookingForm'
 
 const App = () => {
   return (
@@ -73,6 +74,7 @@ const App = () => {
         <Route path="/product/:id" element={<Main child={<ProductItem />} />} />
         <Route path="/cart" element={<Main child={<Cart />} />} />
         <Route path="/checkout" element={<Main child={<CheckOut />} />} />
+        <Route path="/schedule-appointment" element={<Main child={<BookingForm />} />} />
 
         <Route path="/" element={<Main child={<Home />} />} />
 
