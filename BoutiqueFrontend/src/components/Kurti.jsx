@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -14,68 +14,19 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Footer from "../components/Footer";
-
-const kurtiList = [
-  {
-    id: 1,
-    name: "Red Embroidered Kurti",
-    price: "₹1,299",
-    image:
-      "https://juniperfashion.com/cdn/shop/files/2614MAROON_f9c7ac3d-e326-4005-b574-4c4d173e1015.jpg",
-  },
-  {
-    id: 2,
-    name: "Blue Printed Kurti",
-    price: "₹1,599",
-    image:
-      "https://cdn.sareeka.com/image/cache/data2024/blue-georgette-casual-kurti-in-plain-for-women-278882-1000x1375.jpg",
-  },
-  {
-    id: 3,
-    name: "Black Anarkali Kurti",
-    price: "₹1,899",
-    image:
-      "https://www.salwari.com/image/cache/product-2024/black-mirror-kurta-kurti-100984-1000x1375.gif",
-  },
-  {
-    id: 4,
-    name: "Yellow Cotton Kurti",
-    price: "₹999",
-    image:
-      "https://www.salwari.com/image/cache/product-2022/yellow-fancy-party-wear-kurti-53861-1000x1375.jpg",
-  },
-  {
-    id: 5,
-    name: "Net Anarkali Salwar",
-    price: "₹1,199",
-    image:
-      "https://www.sareespalace.com/image/cache/data/net-sangeet-anarkali-salwar-kameez-255937-1000x1375.jpg",
-  },
-  {
-    id: 6,
-    name: "Blue Foil Print Kurtis",
-    price: "₹1,000",
-    image:
-      "https://kajols.com/cdn/shop/products/zari-rayon-navy-blue-designer-kurti-237744-1000x1375.jpg?v=1669080754",
-  },
-  {
-    id: 7,
-    name: "Cotton Kurti",
-    price: "₹2,599",
-    image:
-      "https://cdn.sareeka.com/image/cache/data2023/cotton-designer-kurti-259405-1000x1375.jpg",
-  },
-  {
-    id: 8,
-    name: "Anarkali Suit Art Silk",
-    price: "₹2,199",
-    image:
-      "https://kajols.com/cdn/shop/products/art-silk-plain-anarkali-salwar-kameez-238741-1000x1375.jpg?v=1669074741",
-  }
-];
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Kurti = () => {
+  const [kurtiList, setKurtiList] = useState([]);
   const [sort, setSort] = useState("relevant");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/products/list?category=kurti") // ✅ Backend filtering
+      .then((response) => setKurtiList(response.data.products))
+      .catch((error) => console.error("Error fetching kurtis:", error));
+  }, []);
 
   return (
     <>
@@ -98,18 +49,6 @@ const Kurti = () => {
           >
             Filters
           </Typography>
-
-          {/* Categories */}
-          {/* <Typography variant="h6" mb={1}>
-          Categories
-        </Typography> */}
-          {/* <FormGroup>
-          <FormControlLabel control={<Checkbox />} label="Women" />
-          <FormControlLabel control={<Checkbox />} label="Men" />
-          <FormControlLabel control={<Checkbox />} label="Kids" />
-        </FormGroup> */}
-
-          {/* Type */}
           <Typography variant="h6" mt={4} sx={{ color: "#A48374" }}>
             Type
           </Typography>
@@ -122,7 +61,6 @@ const Kurti = () => {
 
         {/* Main Content - Collection */}
         <Box flex={1}>
-          {/* Header with Sorting */}
           <Box
             display="flex"
             justifyContent="space-between"
@@ -132,12 +70,7 @@ const Kurti = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              sx={{
-                margin: "0 auto",
-                display: "block",
-                textAlign: "center",
-                color: "#A48374",
-              }}
+              sx={{ margin: "0 auto", textAlign: "center", color: "#A48374" }}
             >
               KURTI
             </Typography>
@@ -156,32 +89,33 @@ const Kurti = () => {
           {/* Product Grid Layout */}
           <Grid container spacing={3} justifyContent="center">
             {kurtiList.map((kurti) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={kurti.id}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={kurti._id}>
                 <Card
                   sx={{
-                    height: "100%", // Ensures all cards are the same height
+                    height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
                     alignItems: "center",
                     boxShadow: 3,
                     borderRadius: 3,
-                    overflow: "hidden", // Prevents overflow issues
+                    overflow: "hidden",
                   }}
                 >
                   <CardMedia
                     component="img"
-                    image={kurti.image}
+                    image={
+                      Array.isArray(kurti.image) ? kurti.image[0] : kurti.image
+                    }
                     alt={kurti.name}
                     sx={{
-                      height: "250px", // Fixed height for uniformity
+                      height: "250px",
                       width: "100%",
-                      objectFit: "scale-down", // Show full image without cropping
+                      objectFit: "scale-down",
                       backgroundColor: "#A48374",
-                      borderRadius: 3, // Optional: Adds a background to avoid blank spaces
+                      borderRadius: 3,
                     }}
                   />
-
                   <CardContent
                     sx={{
                       flexGrow: 1,
@@ -195,11 +129,13 @@ const Kurti = () => {
                       {kurti.name}
                     </Typography>
                     <Typography color="text.secondary">
-                      {kurti.price}
+                      ₹{kurti.price}
                     </Typography>
                   </CardContent>
                   <Button
                     variant="contained"
+                    component={Link}
+                    to={`/product/${kurti._id}`}
                     sx={{
                       width: "100%",
                       bgcolor: "#A48374",
@@ -214,7 +150,7 @@ const Kurti = () => {
           </Grid>
         </Box>
       </Box>
-      <Footer/>
+      <Footer />
     </>
   );
 };
