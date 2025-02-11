@@ -58,6 +58,9 @@ import ProductItem from './components/ProductItem';
 import Cart from './components/Cart';
 import CheckOut from './components/CheckOut';
 import BookingForm from './components/BookingForm'
+import AddItem from "./components/AddItem";
+import ListItem from "./components/ListItem";
+import OrderItem from "./components/OrderItem"
 
 const App = () => {
   return (
@@ -74,7 +77,13 @@ const App = () => {
         <Route path="/product/:id" element={<Main child={<ProductItem />} />} />
         <Route path="/cart" element={<Main child={<Cart />} />} />
         <Route path="/checkout" element={<Main child={<CheckOut />} />} />
-        <Route path="/schedule-appointment" element={<Main child={<BookingForm />} />} />
+        <Route
+          path="/schedule-appointment"
+          element={<Main child={<BookingForm />} />}
+        />
+        <Route path="/add-item" element={<Main child={<AddItem />} />} />
+        <Route path="/list-item" element={<Main child={<ListItem />} />} />
+        <Route path="/order-item" element={<Main child={<OrderItem />} />} />
 
         <Route path="/" element={<Main child={<Home />} />} />
 
