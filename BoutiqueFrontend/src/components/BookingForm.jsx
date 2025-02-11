@@ -8,23 +8,31 @@ const AppointmentForm = () => {
     preferredDate: "",
     address: "",
     message: "",
+    mobile: "",
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const message = `Hello, I would like to schedule an appointment.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPreferred Date: ${formData.preferredDate}\nAddress: ${formData.address}\nMessage: ${formData.message}`;
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
-    window.open(whatsappURL, "_blank");
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const phoneNumber = "+916238738546"; // Replace with the actual number (Country Code + Number)
+  const message = `Hello, I would like to schedule an appointment.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPreferred Date: ${formData.preferredDate}\nAddress: ${formData.address}\nMessage: ${formData.message}`;
+
+  // Encode the message for URL
+  const encodedMessage = encodeURIComponent(message);
+
+  // Construct WhatsApp URL
+  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+  // Open in new tab
+  window.open(whatsappURL, "_blank");
+};
 
   return (
     <div className="flex flex-col h-screen">
-      {/* Main Content */}
       <div className="flex-grow flex items-center justify-center py-10">
         <div className="bg-white p-5 rounded-xl shadow-lg w-full max-w-xs">
           <h2 className="text-center text-lg font-semibold mb-3">
@@ -75,6 +83,17 @@ const AppointmentForm = () => {
               />
             </div>
             <div className="mb-2">
+              <input
+                type="text"
+                name="mobile"
+                className="form-control py-2"
+                placeholder="Mobile Number"
+                value={formData.mobile}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-2">
               <textarea
                 name="message"
                 className="form-control py-2"
@@ -84,11 +103,10 @@ const AppointmentForm = () => {
                 required
               ></textarea>
             </div>
-            {/* Centered Button */}
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="btn btn-success w-auto px-5 py-2 "
+                className="btn btn-success w-auto px-5 py-2"
               >
                 Send via WhatsApp
               </button>
@@ -96,8 +114,6 @@ const AppointmentForm = () => {
           </form>
         </div>
       </div>
-
-      {/* Footer at the Bottom */}
       <Footer />
     </div>
   );
