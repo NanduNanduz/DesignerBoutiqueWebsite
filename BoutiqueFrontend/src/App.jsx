@@ -55,7 +55,8 @@ import Saree from "./components/Saree";
 import AdminDashboard from "./components/AdminDashboard";
 import PrivateRoutes from "./components/PrivateRoutes"; 
 import ProductItem from './components/ProductItem';
-import Cart from './components/Cart'
+import Cart from './components/Cart';
+import CheckOut from './components/CheckOut'
 
 const App = () => {
   return (
@@ -71,6 +72,7 @@ const App = () => {
         <Route path="/saree" element={<Main child={<Saree />} />} />
         <Route path="/product/:id" element={<Main child={<ProductItem />} />} />
         <Route path="/cart" element={<Main child={<Cart />} />} />
+        <Route path="/checkout" element={<Main child={<CheckOut />} />} />
 
         <Route path="/" element={<Main child={<Home />} />} />
 
