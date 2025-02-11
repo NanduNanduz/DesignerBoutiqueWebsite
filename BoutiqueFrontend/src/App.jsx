@@ -53,7 +53,9 @@ import Product from "./components/Product";
 import Lehenga from "./components/Lehenga";
 import Saree from "./components/Saree";
 import AdminDashboard from "./components/AdminDashboard";
-import PrivateRoutes from "./components/PrivateRoutes"; // Import PrivateRoutes
+import PrivateRoutes from "./components/PrivateRoutes"; 
+import ProductItem from './components/ProductItem';
+import Cart from './components/Cart'
 
 const App = () => {
   return (
@@ -67,10 +69,9 @@ const App = () => {
         <Route path="/kurti" element={<Main child={<Kurti />} />} />
         <Route path="/lehenga" element={<Main child={<Lehenga />} />} />
         <Route path="/saree" element={<Main child={<Saree />} />} />
-        <Route
-          path="/product/:productId"
-          element={<Main child={<Product />} />}
-        />
+        <Route path="/product/:id" element={<Main child={<ProductItem />} />} />
+        <Route path="/cart" element={<Main child={<Cart />} />} />
+
         <Route path="/" element={<Main child={<Home />} />} />
 
         {/*  Protected Admin Route */}
