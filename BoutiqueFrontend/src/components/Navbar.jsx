@@ -4,6 +4,15 @@ import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons"; // Outlin
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const Navbar = () => {
+
+
+const getCartCount = () => {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  return cart.length;
+};
+
+
+
   return (
     <nav
       className="navbar navbar-expand-lg text-uppercase fs-6 p-3 border-bottom align-items-center"
@@ -98,7 +107,7 @@ const Navbar = () => {
               <ShoppingCartOutlinedIcon
                 style={{ fontSize: "1.5rem", color: "#333" }}
               />
-              <span>(0)</span>
+              <span>({getCartCount()})</span>
             </Link>
             <Link to="/login" className="text-dark">
               Logout
