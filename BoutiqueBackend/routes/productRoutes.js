@@ -119,18 +119,41 @@ router.post(
 );
 
 
-//list product
-router.get('/list', async(req,res)=>{
-  try {
-    const products = await productModel.find({});
-    res.json({success:true,products})
+// //list product
+// router.get('/list', async(req,res)=>{
+//   try {
+//     const products = await productModel.find({});
+//     res.json({success:true,products})
     
-  } catch (error) {
-    console.log(error)
-    res.json({success: false, message: error.message})
-  }
+//   } catch (error) {
+//     console.log(error)
+//     res.json({success: false, message: error.message})
+//   }
 
-})
+// })
+
+
+
+
+// List products with optional category filtering
+router.get('/list', async (req, res) => {
+  try {
+    const { category } = req.query; // Extract category from request query
+
+    let filter = {};
+    if (category) {
+      filter.category = new RegExp(`^${category}$`, "i"); // Case-insensitive search
+    }
+
+    const products = await productModel.find(filter);
+    res.json({ success: true, products });
+
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 
 
 //single product info
@@ -147,6 +170,23 @@ router.post('/single', async(req,res)=>{
   }
 
 })
+
+router.get("/single/:id", async (req, res) => {
+  try {
+    const product = await productModel.findById(req.params.id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    res.json({ success: true, product });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
 
 //remove product
 router.post("/remove",adminAuth, async (req, res) => {
