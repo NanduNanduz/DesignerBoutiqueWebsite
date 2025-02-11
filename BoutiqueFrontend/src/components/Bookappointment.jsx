@@ -19,7 +19,7 @@ const Bookappointment = () => {
           Connect with our expert designers either online or in-store to craft
           your ideal outfit.
         </p>
-        <a href="#appointment" className="book-button">
+        <a href="/schedule-appointment" className="book-button">
           SCHEDULE NOW
         </a>
       </div>
