@@ -49,7 +49,6 @@ import Main from "./components/Main";
 import Newcollections from "./components/Newcollections";
 import Bookappointment from "./components/Bookappointment";
 import Kurti from "./components/Kurti";
-import Product from "./components/Product";
 import Lehenga from "./components/Lehenga";
 import Saree from "./components/Saree";
 import AdminDashboard from "./components/AdminDashboard";
