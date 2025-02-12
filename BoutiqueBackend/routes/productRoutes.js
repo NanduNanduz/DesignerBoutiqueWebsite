@@ -19,8 +19,109 @@ const adminAuth = require('../middleware/adminAuth')
 
 
 //--------------add product--------------------
+// router.post(
+//   "/add",adminAuth,
+//   upload.fields([
+//     { name: "image1", maxCount: 1 },
+//     { name: "image2", maxCount: 1 },
+//     { name: "image3", maxCount: 1 },
+//     { name: "image4", maxCount: 1 },
+//   ]),
+//   async (req, res) => {
+//     try {
+//       // Debugging - Log full request body
+//       console.log("Received Request Body:", req.body);
+
+//       const {
+//         name,
+//         description,
+//         price,
+//         category,
+//         subCategory,
+//         sizes,
+//         bestseller,
+//       } = req.body;
+
+//       if (!subCategory) {
+//         return res.json({
+//           success: false,
+//           message: "subCategory is required.",
+//         });
+//       }
+
+//       console.log("Raw sizes received:", sizes); // Debugging log
+
+//       //  Convert sizes into an array
+//       let parsedSizes;
+//       try {
+//         if (Array.isArray(sizes)) {
+//           parsedSizes = sizes; // If already an array, use it
+//         } else {
+//           parsedSizes = JSON.parse(sizes); // Try parsing JSON
+//         }
+//       } catch (err) {
+//         // If JSON parsing fails, attempt to split by comma
+//         parsedSizes = sizes ? sizes.split(",").map((size) => size.trim()) : [];
+//       }
+
+//       // Check if parsedSizes is an array
+//       if (!Array.isArray(parsedSizes)) {
+//         return res.json({
+//           success: false,
+//           message: "Invalid sizes format. It should be a JSON array.",
+//         });
+//       }
+
+//       //  Get uploaded images
+//       const image1 = req.files.image1 && req.files.image1[0];
+//       const image2 = req.files.image2 && req.files.image2[0];
+//       const image3 = req.files.image3 && req.files.image3[0];
+//       const image4 = req.files.image4 && req.files.image4[0];
+
+//       const images = [image1, image2, image3, image4].filter(
+//         (item) => item !== undefined
+//       );
+
+//       //  Upload images to Cloudinary
+//       let imageUrls = await Promise.all(
+//         images.map(async (item) => {
+//           let result = await cloudinary.uploader.upload(item.path, {
+//             resource_type: "image",
+//           });
+//           return result.secure_url;
+//         })
+//       );
+
+//       //  Save to database
+//       const productData = {
+//         name,
+//         description,
+//         category,
+//         price: Number(price),
+//         subCategory,
+//         bestseller: bestseller === "true",
+//         sizes: parsedSizes,
+//         image: imageUrls,
+//         date: Date.now(),
+//       };
+
+//       console.log("Final Product Data:", productData); // Debugging log
+
+//       const product = new productModel(productData);
+//       await product.save();
+
+//       res.json({ success: true, message: "Product Added" });
+//     } catch (error) {
+//       console.log("Error:", error.message);
+//       res.json({ success: false, message: error.message });
+//     }
+//   }
+// );
+
+
 router.post(
-  "/add",adminAuth,
+  "/add",
+  adminAuth,
   upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
@@ -29,8 +130,8 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      // Debugging - Log full request body
       console.log("Received Request Body:", req.body);
+      console.log("Received Files:", req.files);
 
       const {
         name,
@@ -49,40 +150,22 @@ router.post(
         });
       }
 
-      console.log("Raw sizes received:", sizes); // Debugging log
-
-      //  Convert sizes into an array
       let parsedSizes;
       try {
-        if (Array.isArray(sizes)) {
-          parsedSizes = sizes; // If already an array, use it
-        } else {
-          parsedSizes = JSON.parse(sizes); // Try parsing JSON
-        }
+        parsedSizes = JSON.parse(sizes);
       } catch (err) {
-        // If JSON parsing fails, attempt to split by comma
         parsedSizes = sizes ? sizes.split(",").map((size) => size.trim()) : [];
       }
 
-      // Check if parsedSizes is an array
-      if (!Array.isArray(parsedSizes)) {
-        return res.json({
-          success: false,
-          message: "Invalid sizes format. It should be a JSON array.",
-        });
-      }
+      console.log("Parsed Sizes:", parsedSizes);
 
-      //  Get uploaded images
-      const image1 = req.files.image1 && req.files.image1[0];
-      const image2 = req.files.image2 && req.files.image2[0];
-      const image3 = req.files.image3 && req.files.image3[0];
-      const image4 = req.files.image4 && req.files.image4[0];
+      // Get uploaded images
+      const images = ["image1", "image2", "image3", "image4"]
+        .map((key) => (req.files[key] ? req.files[key][0] : null))
+        .filter(Boolean);
 
-      const images = [image1, image2, image3, image4].filter(
-        (item) => item !== undefined
-      );
+      console.log("Images to Upload:", images);
 
-      //  Upload images to Cloudinary
       let imageUrls = await Promise.all(
         images.map(async (item) => {
           let result = await cloudinary.uploader.upload(item.path, {
@@ -92,7 +175,6 @@ router.post(
         })
       );
 
-      //  Save to database
       const productData = {
         name,
         description,
@@ -105,18 +187,19 @@ router.post(
         date: Date.now(),
       };
 
-      console.log("Final Product Data:", productData); // Debugging log
+      console.log("Final Product Data:", productData);
 
       const product = new productModel(productData);
       await product.save();
 
       res.json({ success: true, message: "Product Added" });
     } catch (error) {
-      console.log("Error:", error.message);
+      console.log("Error in /add:", error.message);
       res.json({ success: false, message: error.message });
     }
   }
 );
+
 
 
 // //list product
