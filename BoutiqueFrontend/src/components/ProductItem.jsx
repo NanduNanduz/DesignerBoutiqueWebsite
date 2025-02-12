@@ -194,30 +194,68 @@ const ProductItem = () => {
     setErrorMessage(""); // Clear error when size is selected
   };
 
-  const handleAddToCart = () => {
+  // const handleAddToCart = () => {
+  //   if (!selectedSize) {
+  //     setErrorMessage("⚠️ Please select a product size!");
+  //   } else {
+  //     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //     const existingItemIndex = cart.findIndex(
+  //       (item) => item.id === product._id && item.size === selectedSize
+  //     );
+
+  //     if (existingItemIndex !== -1) {
+  //       cart[existingItemIndex].quantity += 1;
+  //     } else {
+  //       cart.push({
+  //         id: product._id,
+  //         name: product.name,
+  //         price: product.price,
+  //         size: selectedSize,
+  //         image: selectedImage,
+  //         quantity: 1,
+  //       });
+  //     }
+
+  //     localStorage.setItem("cart", JSON.stringify(cart));
+  //     alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
+  //   }
+  // };
+
+
+
+  const handleAddToCart = async () => {
     if (!selectedSize) {
       setErrorMessage("⚠️ Please select a product size!");
-    } else {
-      const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const existingItemIndex = cart.findIndex(
-        (item) => item.id === product._id && item.size === selectedSize
-      );
+      return;
+    }
 
-      if (existingItemIndex !== -1) {
-        cart[existingItemIndex].quantity += 1;
-      } else {
-        cart.push({
-          id: product._id,
-          name: product.name,
-          price: product.price,
-          size: selectedSize,
-          image: selectedImage,
-          quantity: 1,
-        });
+    try {
+     const token =
+       localStorage.getItem("token") || sessionStorage.getItem("logintoken");
+ // Get the JWT token
+      if (!token) {
+        alert("Please log in to add items to the cart.");
+        return;
       }
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
+      const response = await axios.post(
+        "http://localhost:3000/cart/addToCart",
+        {
+          productId: product._id,
+          size: selectedSize,
+          quantity: 1,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.status === 200) {
+        alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add item to cart.");
     }
   };
 
