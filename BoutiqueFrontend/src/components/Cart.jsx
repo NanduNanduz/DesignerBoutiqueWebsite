@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import Footer from "../components/Footer";
@@ -7,13 +8,18 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const shippingFee = 10; // Static shipping fee
+  const shippingFee = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    loadCart();
+  }, []);
+
+  const loadCart = () => {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(cartData);
     calculateSubtotal(cartData);
-  }, []);
+  };
 
   const calculateSubtotal = (cartItems) => {
     const total = cartItems.reduce(
@@ -31,17 +37,16 @@ const Cart = () => {
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     calculateSubtotal(updatedCart);
+    window.dispatchEvent(new Event("storage")); // Notify Navbar
   };
 
   const removeItem = (index) => {
-    const updatedCart = [...cart];
-    updatedCart.splice(index, 1);
+    const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     calculateSubtotal(updatedCart);
+    window.dispatchEvent(new Event("storage")); // Notify Navbar
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -138,11 +143,9 @@ const Cart = () => {
         )}
       </div>
 
-      {/* Footer Positioned Properly */}
       <Footer />
     </div>
   );
 };
 
 export default Cart;
-
