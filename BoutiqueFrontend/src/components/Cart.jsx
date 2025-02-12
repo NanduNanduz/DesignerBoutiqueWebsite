@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -14,10 +15,18 @@ const Cart = () => {
     loadCart();
   }, []);
 
-  const loadCart = () => {
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(cartData);
-    calculateSubtotal(cartData);
+  const loadCart = async () => {
+    try {
+      const token = sessionStorage.getItem("logintoken"); // Assuming user is authenticated
+      const response = await axios.get("http://localhost:3000/cart/cartlist", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setCart(response.data);
+      calculateSubtotal(response.data);
+    } catch (error) {
+      console.error("Error loading cart:", error);
+    }
   };
 
   const calculateSubtotal = (cartItems) => {
@@ -28,23 +37,39 @@ const Cart = () => {
     setSubtotal(total);
   };
 
-  const updateQuantity = (index, quantity) => {
+  const updateQuantity = async (index, quantity) => {
     if (quantity < 1) return;
-
-    const updatedCart = [...cart];
-    updatedCart[index].quantity = quantity;
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    calculateSubtotal(updatedCart);
-    window.dispatchEvent(new Event("storage")); // Notify Navbar
+    try {
+      const token = sessionStorage.getItem("logintoken");
+      const updatedCart = [...cart];
+      updatedCart[index].quantity = quantity;
+      setCart(updatedCart);
+      calculateSubtotal(updatedCart);
+      await axios.put(
+        `http://localhost:3000/cart/update/${updatedCart[index]._id}`,
+        { quantity },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
   };
 
-  const removeItem = (index) => {
-    const updatedCart = cart.filter((_, i) => i !== index);
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    calculateSubtotal(updatedCart);
-    window.dispatchEvent(new Event("storage")); // Notify Navbar
+  const removeItem = async (index) => {
+    try {
+      const token = sessionStorage.getItem("logintoken");
+      const itemId = cart[index]._id;
+      const updatedCart = cart.filter((_, i) => i !== index);
+      setCart(updatedCart);
+      calculateSubtotal(updatedCart);
+      await axios.delete(`http://localhost:3000/cart/delete/${itemId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
   };
 
   return (

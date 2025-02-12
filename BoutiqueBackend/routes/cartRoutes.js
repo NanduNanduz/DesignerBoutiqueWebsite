@@ -51,4 +51,27 @@ router.post("/addToCart", verifyToken, async (req, res) => {
   }
 });
 
+
+
+
+
+// Get user cart
+router.get("/cartlist", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming authentication middleware sets req.user
+    const user = await userModel
+      .findById(userId)
+      .populate("cartData.items.productId");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user.cartData.items);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 module.exports = router;
+

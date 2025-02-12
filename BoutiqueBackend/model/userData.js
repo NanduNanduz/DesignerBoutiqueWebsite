@@ -17,7 +17,7 @@
 const mongoose = require("mongoose");
 
 const cartItemSchema = new mongoose.Schema({
-  productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
   name: String,
   price: Number,
   size: String,
@@ -38,5 +38,5 @@ const userSchema = mongoose.Schema(
   { minimize: false }
 );
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 module.exports = User;
