@@ -138,20 +138,20 @@ router.get('/list', async (req, res) => {
 
 
 
-//single product info
-router.post('/single', async(req,res)=>{
-  try {
-    const {productId} = req.body
-    const product = await productModel.findById(productId)
-    res.json({success:true, product})
-  } catch (error) {
+// //single product info
+// router.post('/single', async(req,res)=>{
+//   try {
+//     const {productId} = req.body
+//     const product = await productModel.findById(productId)
+//     res.json({success:true, product})
+//   } catch (error) {
 
-     console.log(error);
-     res.json({ success: false, message: error.message });
+//      console.log(error);
+//      res.json({ success: false, message: error.message });
     
-  }
+//   }
 
-})
+// })
 
 router.get("/single/:id", async (req, res) => {
   try {
@@ -170,25 +170,52 @@ router.get("/single/:id", async (req, res) => {
 
 
 
-//remove product
-router.post("/remove",adminAuth, async (req, res) => {
+// //remove product
+// router.post("/remove",adminAuth, async (req, res) => {
+//   try {
+//     const { id } = req.body; // Extract ID from request body
+
+//     if (!id) {
+//       return res.json({ success: false, message: "Product ID is required" });
+//     }
+
+//     const deletedProduct = await productModel.findByIdAndDelete(id);
+
+//     if (!deletedProduct) {
+//       return res.json({ success: false, message: "Product not found" });
+//     }
+
+//     res.json({ success: true, message: "Product removed successfully" });
+//   } catch (error) {
+//     console.log("Error in /remove:", error);
+//     res.json({ success: false, message: error.message });
+//   }
+// });
+
+
+
+router.delete("/remove", adminAuth, async (req, res) => {
   try {
-    const { id } = req.body; // Extract ID from request body
+    const { id } = req.body;
 
     if (!id) {
-      return res.json({ success: false, message: "Product ID is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Product ID is required" });
     }
 
     const deletedProduct = await productModel.findByIdAndDelete(id);
 
     if (!deletedProduct) {
-      return res.json({ success: false, message: "Product not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
     }
 
     res.json({ success: true, message: "Product removed successfully" });
   } catch (error) {
     console.log("Error in /remove:", error);
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
