@@ -42,7 +42,7 @@ const Home = () => {
   };
 
   return (
-    <div
+    <div className="body"
       style={{ width: "100%", overflow: "hidden", margin: "0%", padding: "0%" }}
     >
       {/* Hero Slider Wrapper */}
