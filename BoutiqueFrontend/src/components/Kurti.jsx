@@ -23,14 +23,14 @@ const Kurti = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/products/list?category=kurti") // ✅ Backend filtering
+      .get("http://localhost:3000/products/list?category=kurti") //  Backend filtering
       .then((response) => setKurtiList(response.data.products))
       .catch((error) => console.error("Error fetching kurtis:", error));
   }, []);
 
   return (
     <>
-      <Box
+      <Box 
         display="flex"
         flexDirection="row"
         maxWidth="1200px"
