@@ -194,32 +194,7 @@ const ProductItem = () => {
     setErrorMessage(""); // Clear error when size is selected
   };
 
-  // const handleAddToCart = () => {
-  //   if (!selectedSize) {
-  //     setErrorMessage("⚠️ Please select a product size!");
-  //   } else {
-  //     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  //     const existingItemIndex = cart.findIndex(
-  //       (item) => item.id === product._id && item.size === selectedSize
-  //     );
-
-  //     if (existingItemIndex !== -1) {
-  //       cart[existingItemIndex].quantity += 1;
-  //     } else {
-  //       cart.push({
-  //         id: product._id,
-  //         name: product.name,
-  //         price: product.price,
-  //         size: selectedSize,
-  //         image: selectedImage,
-  //         quantity: 1,
-  //       });
-  //     }
-
-  //     localStorage.setItem("cart", JSON.stringify(cart));
-  //     alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
-  //   }
-  // };
+ 
 
 
 
