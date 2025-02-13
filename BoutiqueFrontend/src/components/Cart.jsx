@@ -57,16 +57,37 @@ const Cart = () => {
     }
   };
 
+  // const removeItem = async (index) => {
+  //   try {
+  //     const token = sessionStorage.getItem("logintoken");
+  //     const itemId = cart[index]._id;
+  //     const updatedCart = cart.filter((_, i) => i !== index);
+  //     setCart(updatedCart);
+  //     calculateSubtotal(updatedCart);
+  //     await axios.delete(`http://localhost:3000/cart/delete/${itemId}`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error removing item:", error);
+  //   }
+  // };
+
+
+
   const removeItem = async (index) => {
     try {
       const token = sessionStorage.getItem("logintoken");
-      const itemId = cart[index]._id;
+      const itemId = cart[index]._id; // Get the item ID
+
+      // Send DELETE request to backend
+      await axios.delete(`http://localhost:3000/cart/deletecart/${itemId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Update UI after successful deletion
       const updatedCart = cart.filter((_, i) => i !== index);
       setCart(updatedCart);
       calculateSubtotal(updatedCart);
-      await axios.delete(`http://localhost:3000/cart/delete/${itemId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
     } catch (error) {
       console.error("Error removing item:", error);
     }

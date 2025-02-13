@@ -73,5 +73,31 @@ router.get("/cartlist", verifyToken, async (req, res) => {
   }
 });
 
+
+
+
+// Remove an item from cart
+router.delete("/deletecart/:itemId", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { itemId } = req.params;
+
+    const user = await userModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Filter out the item to remove it
+    user.cartData.items = user.cartData.items.filter(
+      (item) => item._id.toString() !== itemId
+    );
+
+    await user.save();
+    res.status(200).json({ message: "Item removed successfully", cart: user.cartData.items });
+  } catch (error) {
+    console.error("Error deleting cart item:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
 module.exports = router;
 
