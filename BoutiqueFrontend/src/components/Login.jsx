@@ -11,6 +11,7 @@ import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import Footer from "../components/Footer"
 
 
 const Background = styled(Box)({
@@ -74,61 +75,65 @@ const Login = () => {
  }
 
   return (
-    <Background>
-      <Container maxWidth="sm">
-        <LoginCard elevation={3}>
-          <Typography
-            variant="h4"
-            fontWeight="bold"
-            gutterBottom
-            style={{ color: " #A48374" }}
-          >
-            Welcome to Trendora
-          </Typography>
-          <p className="text-[#A48374] mb-6">Login to continue</p>
-          <Box component="form" noValidate autoComplete="off">
-            <TextField
-              fullWidth
-              label="Email"
-              name="email"
-              variant="outlined"
-              margin="normal"
-              onChange={(e) => {
-                setForm({ ...form, email: e.target.value });
-              }}
-            />
-            <TextField
-              fullWidth
-              label="Password"
-              type="password"
-              variant="outlined"
-              margin="normal"
-              onChange={(e) => {
-                setForm({ ...form, password: e.target.value });
-              }}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={capValue}
-              sx={{
-                mt: 2,
-                bgcolor: "#A48374",
-                color: "#F1EDE6",
-                "&:hover": { bgcolor: "#A48374" },
-              }}
+    <>
+      <Background>
+        <Container maxWidth="sm">
+          <LoginCard elevation={3}>
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+              gutterBottom
+              style={{ color: " #A48374" }}
             >
-              Login
-            </Button>
-            <Link to={"/signup"} style={{ color: "black" }}>
-              <br /> <br />
-              New User? Please SignUp Here
-            </Link>
-          </Box>
-        </LoginCard>
-      </Container>
-    </Background>
+              Welcome to Trendora
+            </Typography>
+            <p className="text-[#A48374] mb-6">Login to continue</p>
+            <Box component="form" noValidate autoComplete="off">
+              <TextField
+                fullWidth
+                label="Email"
+                name="email"
+                variant="outlined"
+                margin="normal"
+                onChange={(e) => {
+                  setForm({ ...form, email: e.target.value });
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                variant="outlined"
+                margin="normal"
+                onChange={(e) => {
+                  setForm({ ...form, password: e.target.value });
+                }}
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={capValue}
+                sx={{
+                  mt: 2,
+                  bgcolor: "#A48374",
+                  color: "#F1EDE6",
+                  "&:hover": { bgcolor: "#A48374" },
+                }}
+              >
+                Login
+              </Button>
+              <Link to={"/signup"} style={{ color: "black" }}>
+                <br /> <br />
+                New User? Please SignUp Here
+              </Link>
+            </Box>
+          </LoginCard>
+        </Container>
+      </Background>
+      <Footer /> {/* Moved outside Background */}
+    </>
   );
+
 };
 
 export default Login;

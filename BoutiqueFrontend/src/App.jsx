@@ -29,8 +29,8 @@ const App = () => {
     <div>
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Main child={<Login />} />} />
+        <Route path="/signup" element={<Main child={<Signup />} />} />
         <Route path="/new-collections" element={<Newcollections />} />
         <Route path="/book-appointment" element={<Bookappointment />} />
         <Route path="/kurti" element={<Main child={<Kurti />} />} />
