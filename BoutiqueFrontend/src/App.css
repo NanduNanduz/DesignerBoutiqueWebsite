@@ -302,5 +302,18 @@
   font-size: 14px;
 }
 
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensures it's above other elements */
+}
+
+
+
+body {
+  padding-top: 95px; /* Adjust this based on your navbar height */
+}
 
 
