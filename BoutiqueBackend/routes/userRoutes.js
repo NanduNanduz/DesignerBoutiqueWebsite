@@ -10,7 +10,16 @@ const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcryptjs");
 
-const validator = require("validator")
+const validator = require("validator");
+
+
+const Stripe = require('stripe');
+
+const dotenv = require('dotenv');
+
+
+dotenv.config();
+
 
 
 
@@ -74,30 +83,6 @@ router.post('/register',async(req,res)=>{
 } )
 
 
-// //User Login 
-// router.post('/login',async(req,res)=>{
-//   try {
-    
-//     const {email,password} = req.body;
-//     const user = await userModel.findOne({email});
-//     if(!user){
-//       return res.json({ success: false, message: "User doesn't exists" });
-//     }
-//     const isMatch = await bcrypt.compare(password, user.password)
-//     // if password also match then generate a token and send to the user
-//     if(isMatch){
-//       const token  = createToken(user._id)
-//       res.json({success:true,token})
-//     }
-//     else{
-//       res.json({success:false, message:'Invalid credentials'})
-//     }
-//   }
-//    catch (error) {
-//      console.log(error);
-//      res.json({ success: false, message: error.message });
-//   }
-// })
 
 
 
@@ -167,6 +152,33 @@ router.post('/admin', async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 });
+
+
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+router.post("/payment", async (req, res) => {
+  try {
+    const { amount } = req.body;
+    console.log("Received Amount in Backend:", amount); // Debugging
+
+    if (!amount || isNaN(amount)) {
+      return res.status(400).send({ error: "Invalid amount" });
+    }
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount * 100, // Convert to cents
+      currency: "usd",
+      payment_method_types: ["card"],
+    });
+
+    res.send({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error("Stripe Error:", error); // Debugging
+    res.status(500).send({ error: error.message });
+  }
+});
+
 
 
 module.exports = router;
