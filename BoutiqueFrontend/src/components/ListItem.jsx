@@ -118,10 +118,11 @@ const handleDelete = async (id) => {
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.category}</TableCell>
-                  <TableCell>${product.price}</TableCell>
+                  <TableCell>₹{product.price}</TableCell>
                   <TableCell>
                     <IconButton
-                      color="error"
+                      sx={{ color: "#A48374" }}
+                
                       onClick={() => handleDelete(product._id)}
                     >
                       <DeleteIcon />
