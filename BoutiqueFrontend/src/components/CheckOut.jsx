@@ -20,46 +20,100 @@ const CheckoutForm = ({ amount }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
 
-    try {
-      console.log("Sending Amount to Backend:", amount); // Debugging
+  //   try {
+  //     console.log("Sending Amount to Backend:", amount); // Debugging
 
-      const response = await axios.post(
-        "http://localhost:3000/users/payment",
-        { amount }, // Sending amount as JSON
-        { headers: { "Content-Type": "application/json" } }
-      );
+  //     const response = await axios.post(
+  //       "http://localhost:3000/users/payment",
+  //       { amount }, // Sending amount as JSON
+  //       { headers: { "Content-Type": "application/json" } }
+  //     );
 
-      console.log("Response from Backend:", response.data); // Debugging
+  //     console.log("Response from Backend:", response.data); // Debugging
 
-      const { clientSecret } = response.data;
-      if (!clientSecret) {
-        throw new Error("Failed to retrieve client secret.");
-      }
+  //     const { clientSecret } = response.data;
+  //     if (!clientSecret) {
+  //       throw new Error("Failed to retrieve client secret.");
+  //     }
 
-      const { paymentIntent, error } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: { card: elements.getElement(CardElement) },
-        }
-      );
+  //     const { paymentIntent, error } = await stripe.confirmCardPayment(
+  //       clientSecret,
+  //       {
+  //         payment_method: { card: elements.getElement(CardElement) },
+  //       }
+  //     );
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setSuccess("Payment successful!");
-        setTimeout(() => navigate("/success"), 2000); // ✅ Redirect to success page
-      }
-    } catch (err) {
-      console.error("Error:", err); // Debugging
-      setError("Payment failed. Please try again.");
+  //     if (error) {
+  //       setError(error.message);
+  //     } else {
+  //       setSuccess("Payment successful!");
+  //       setTimeout(() => navigate("/success"), 2000); // ✅ Redirect to success page
+  //     }
+  //   } catch (err) {
+  //     console.error("Error:", err); // Debugging
+  //     setError("Payment failed. Please try again.");
+  //   }
+
+  //   setLoading(false);
+  // };
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    console.log("Sending Amount to Backend:", amount);
+
+    const response = await axios.post(
+      "http://localhost:3000/users/payment",
+      { amount },
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    console.log("Response from Backend:", response.data);
+
+    const { clientSecret } = response.data;
+    if (!clientSecret) {
+      throw new Error("Failed to retrieve client secret.");
     }
 
-    setLoading(false);
-  };
+    const { paymentIntent, error } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: { card: elements.getElement(CardElement) },
+      }
+    );
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess("Payment successful!");
+
+      // **New: Call API to clear cart**
+      await axios.delete("http://localhost:3000/cart/clearcart", {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("logintoken")}` },
+      });
+
+      setTimeout(() => navigate("/success"), 1000);
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    setError("Payment failed. Please try again.");
+  }
+
+  setLoading(false);
+};
+
+
+
+
+
+
 
   return (
     <form onSubmit={handleSubmit}>
