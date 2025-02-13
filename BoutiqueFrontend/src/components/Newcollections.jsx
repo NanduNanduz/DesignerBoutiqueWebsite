@@ -230,9 +230,9 @@ const Newcollections = () => {
                   />
                   {/* Hover Buttons */}
                   <div className="overlay-buttons">
-                    <button className="wishlist-btn">
+                    {/* <button className="wishlist-btn">
                       <FaHeart />
-                    </button>
+                    </button> */}
                     <button className="cart-btn">
                       <FaShoppingCart /> Add to Cart
                     </button>
