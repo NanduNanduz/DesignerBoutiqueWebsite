@@ -222,6 +222,20 @@ router.delete("/remove", adminAuth, async (req, res) => {
 
 
 
+router.get("/bestsellers", async (req, res) => {
+  try {
+    const bestsellers = await productModel.find({ bestseller: true });
+    res.json({ success: true, products: bestsellers });
+  } catch (error) {
+    console.error("Error fetching bestseller products:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+
+
+
 module.exports = router;
 
 
