@@ -126,11 +126,16 @@ const Newcollections = () => {
             border-radius: 10px;
           }
 
+        
+
           .product-image {
-            width: 100%;
-            display: block;
-            transition: transform 0.3s ease-in-out;
-          }
+  width: 100%;
+  height: 350px; /* Set a fixed height */
+  object-fit: cover; /* Ensures images maintain aspect ratio without distortion */
+  display: block;
+  transition: transform 0.3s ease-in-out;
+}
+
 
           .image-holder:hover .product-image {
             transform: scale(1.1);
