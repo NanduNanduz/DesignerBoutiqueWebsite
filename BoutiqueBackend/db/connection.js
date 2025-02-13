@@ -1,4 +1,3 @@
-//config
 
 const mongoose = require("mongoose");
 

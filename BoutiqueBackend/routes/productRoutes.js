@@ -17,7 +17,7 @@ const { v2: cloudinary } = require("cloudinary");
 const adminAuth = require('../middleware/adminAuth')
 
 
-
+//----------------Add Product----------------------------
 router.post(
   "/add",
   adminAuth,
@@ -101,23 +101,8 @@ router.post(
 
 
 
-// //list product
-// router.get('/list', async(req,res)=>{
-//   try {
-//     const products = await productModel.find({});
-//     res.json({success:true,products})
-    
-//   } catch (error) {
-//     console.log(error)
-//     res.json({success: false, message: error.message})
-//   }
 
-// })
-
-
-
-
-// List products with optional category filtering
+// ------------------------------List Products With Category Filtering---------------------------
 router.get('/list', async (req, res) => {
   try {
     const { category } = req.query; // Extract category from request query
@@ -137,22 +122,7 @@ router.get('/list', async (req, res) => {
 });
 
 
-
-// //single product info
-// router.post('/single', async(req,res)=>{
-//   try {
-//     const {productId} = req.body
-//     const product = await productModel.findById(productId)
-//     res.json({success:true, product})
-//   } catch (error) {
-
-//      console.log(error);
-//      res.json({ success: false, message: error.message });
-    
-//   }
-
-// })
-
+//--------------------------Single Product Info------------------------------
 router.get("/single/:id", async (req, res) => {
   try {
     const product = await productModel.findById(req.params.id);
@@ -169,31 +139,7 @@ router.get("/single/:id", async (req, res) => {
 });
 
 
-
-// //remove product
-// router.post("/remove",adminAuth, async (req, res) => {
-//   try {
-//     const { id } = req.body; // Extract ID from request body
-
-//     if (!id) {
-//       return res.json({ success: false, message: "Product ID is required" });
-//     }
-
-//     const deletedProduct = await productModel.findByIdAndDelete(id);
-
-//     if (!deletedProduct) {
-//       return res.json({ success: false, message: "Product not found" });
-//     }
-
-//     res.json({ success: true, message: "Product removed successfully" });
-//   } catch (error) {
-//     console.log("Error in /remove:", error);
-//     res.json({ success: false, message: error.message });
-//   }
-// });
-
-
-
+//--------------------------Remove Product--------------------------
 router.delete("/remove", adminAuth, async (req, res) => {
   try {
     const { id } = req.body;
@@ -221,7 +167,7 @@ router.delete("/remove", adminAuth, async (req, res) => {
 
 
 
-
+//-----------------------Filtering Bestsellers---------------------
 router.get("/bestsellers", async (req, res) => {
   try {
     const bestsellers = await productModel.find({ bestseller: true });
@@ -231,9 +177,6 @@ router.get("/bestsellers", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
-
-
-
 
 
 module.exports = router;

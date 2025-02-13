@@ -28,7 +28,7 @@ const createToken = (id) =>{
 }
 
 
-//User Registration
+//----------------User Registration------------------------------
 router.post('/register',async(req,res)=>{
   try {
     const { name, email, password } = req.body;
@@ -57,7 +57,6 @@ router.post('/register',async(req,res)=>{
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //Creating user with hashedPassword, email, and name
-
     const newUser  = new userModel({
       name,
       email,
@@ -67,11 +66,9 @@ router.post('/register',async(req,res)=>{
 
     // save to db 
     const user = await newUser.save()
-    //after save provide one token (using the id of user) using that token user can login in the application
+    //after save it provide one token (using the id of user), using that token user can login in the application.
     const token = createToken(user._id)
-
     res.json({success:true,token})
-
 
   } catch (error) {
 
@@ -84,9 +81,7 @@ router.post('/register',async(req,res)=>{
 
 
 
-
-
-
+//------------------------------User Login-------------------------
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -111,7 +106,7 @@ router.post("/login", async (req, res) => {
     const payload = {
       id: user._id,
       email: user.email,
-      role: user.role, // ✅ Include role in token
+      role: user.role,
     };
 
     // Generate token with a secret key
@@ -124,7 +119,7 @@ router.post("/login", async (req, res) => {
       success: true,
       message: "Login Successful",
       token: token,
-      role: user.role, // ✅ Send role to frontend
+      role: user.role,
     });
   } catch (error) {
     console.error(error);
@@ -135,32 +130,32 @@ router.post("/login", async (req, res) => {
 
 
 // Admin Login
-router.post('/admin', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// router.post('/admin', async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
 
-    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-      // Generate token with email in the payload
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+//     if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+//       // Generate token with email in the payload
+//       const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-      res.json({ success: true, token });
-    } else {
-      res.json({ success: false, message: "Invalid credentials" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-});
+//       res.json({ success: true, token });
+//     } else {
+//       res.json({ success: false, message: "Invalid credentials" });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// });
 
 
-
+//-------------------------Stripe Payment---------------------------
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 router.post("/payment", async (req, res) => {
   try {
     const { amount } = req.body;
-    console.log("Received Amount in Backend:", amount); // Debugging
+    console.log("Received Amount in Backend:", amount);
 
     if (!amount || isNaN(amount)) {
       return res.status(400).send({ error: "Invalid amount" });
@@ -174,7 +169,7 @@ router.post("/payment", async (req, res) => {
 
     res.send({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
-    console.error("Stripe Error:", error); // Debugging
+    console.error("Stripe Error:", error);
     res.status(500).send({ error: error.message });
   }
 });

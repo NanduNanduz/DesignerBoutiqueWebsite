@@ -4,9 +4,12 @@ const router = express.Router();
 const userModel = require("../model/userData");
 const productModel = require("../model/productData");
 
-const { verifyToken } = require("../middleware/userAuth"); // Ensure authentication
+const { verifyToken } = require("../middleware/userAuth");
 
-// Add to Cart API Route
+
+
+
+//------------------- Add to Cart -------------------------
 router.post("/addToCart", verifyToken, async (req, res) => {
   try {
     const { productId, size, quantity } = req.body; // Get product details from frontend
@@ -54,8 +57,7 @@ router.post("/addToCart", verifyToken, async (req, res) => {
 
 
 
-
-// Get user cart
+//---------------- Get User Cart ----------------------------------
 router.get("/cartlist", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id; // Assuming authentication middleware sets req.user
@@ -76,7 +78,7 @@ router.get("/cartlist", verifyToken, async (req, res) => {
 
 
 
-// Remove an item from cart
+// -------------------------Remove An Item From Cart--------------------
 router.delete("/deletecart/:itemId", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
