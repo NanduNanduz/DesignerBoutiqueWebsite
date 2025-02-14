@@ -17,7 +17,7 @@ const Newcollections = () => {
     const fetchBestsellers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/products/bestsellers"
+          `${import.meta.env.VITE_API_URL}/products/bestsellers`
         );
         if (response.data.success) {
           setProducts(response.data.products);
@@ -71,11 +71,6 @@ const Newcollections = () => {
                     alt={product.name}
                     className="product-image img-fluid"
                   />
-                  {/* <div className="overlay-buttons">
-                    <button className="cart-btn">
-                      <FaShoppingCart /> Add to Cart
-                    </button>
-                  </div> */}
                 </div>
                 <div className="product-content">
                   <h5 className="product-title">{product.name}</h5>

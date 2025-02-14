@@ -23,7 +23,7 @@ const Kurti = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/products/list?category=kurti") //  Backend filtering
+      .get(`${import.meta.env.VITE_API_URL}/products/list?category=kurti`) //  Backend filtering
       .then((response) => setKurtiList(response.data.products))
       .catch((error) => console.error("Error fetching kurtis:", error));
   }, []);

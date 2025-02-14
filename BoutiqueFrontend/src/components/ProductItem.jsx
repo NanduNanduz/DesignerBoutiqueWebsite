@@ -193,7 +193,7 @@ const ProductItem = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/products/single/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/products/single/${id}`)
       .then((response) => {
         setProduct(response.data.product);
         setSelectedImage(
@@ -234,7 +234,7 @@ const ProductItem = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/cart/addToCart",
+        `${import.meta.env.VITE_API_URL}/cart/addToCart`,
         {
           productId: product._id,
           size: selectedSize,

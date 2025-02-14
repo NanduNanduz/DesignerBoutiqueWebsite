@@ -47,7 +47,7 @@ const Login = () => {
 
  function capValue() {
    axios
-     .post("http://localhost:3000/users/login", form)
+     .post(`${import.meta.env.VITE_API_URL}/users/login`, form)
      .then((res) => {
        console.log(res);
        alert(res.data.message);

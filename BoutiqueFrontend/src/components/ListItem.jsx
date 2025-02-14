@@ -26,7 +26,7 @@ const ListItems = () => {
 
   const fetchProducts = () => {
     axios
-      .get("http://localhost:3000/products/list") // Adjust API URL
+      .get(`${import.meta.env.VITE_API_URL}/products/list`) // Adjust API URL
       .then((response) => {
         if (response.data.success) {
           setProducts(response.data.products);
@@ -54,7 +54,7 @@ const handleDelete = async (id) => {
     }
 
     const response = await axios.delete(
-      "http://localhost:3000/products/remove",
+      `${import.meta.env.VITE_API_URL}/products/remove`,
       {
         headers: {
           Authorization: `Bearer ${token}`, // Send token in headers

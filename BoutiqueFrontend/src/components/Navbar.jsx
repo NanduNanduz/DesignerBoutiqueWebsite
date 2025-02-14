@@ -24,9 +24,12 @@ const Navbar = () => {
       const token = sessionStorage.getItem("logintoken");
       if (!token) return;
 
-      const response = await axios.get("http://localhost:3000/cart/cartlist", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/cart/cartlist`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setCartCount(response.data.length);
     } catch (error) {
@@ -138,13 +141,7 @@ const Navbar = () => {
                     <Link to="/profile" className="text-dark">
                       <FontAwesomeIcon icon={faUser} size="lg" />
                     </Link>
-                    {/* <Link
-                      to="/wishlist"
-                      className="text-dark position-relative"
-                    >
-                      <FontAwesomeIcon icon={faHeart} size="lg" />
-                      <span className="ms-1">(0)</span>
-                    </Link> */}
+                   
                     <Link to="/cart" className="text-dark">
                       <ShoppingCartOutlinedIcon
                         style={{ fontSize: "1.5rem", color: "#333" }}

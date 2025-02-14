@@ -133,7 +133,7 @@ const AdminOrders = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/order/orderInfo", {
+      .get(`${import.meta.env.VITE_API_URL}/order/orderInfo`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("logintoken")}`,
         },
