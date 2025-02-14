@@ -35,7 +35,10 @@ const handleSubmit = (e) => {
     <div className="flex flex-col h-screen">
       <div className="flex-grow flex items-center justify-center py-10">
         <div className="bg-white p-5 rounded-xl shadow-lg w-full max-w-xs">
-          <h2 className="text-center text-lg font-semibold mb-3">
+          <h2
+            className="text-center text-lg font-semibold mb-3"
+            style={{ color: "#A48374" }}
+          >
             Schedule Appointment
           </h2>
           <form onSubmit={handleSubmit}>
@@ -105,6 +108,7 @@ const handleSubmit = (e) => {
             </div>
             <div className="flex justify-center">
               <button
+                style={{ backgroundColor: "#A48374" , }}
                 type="submit"
                 className="btn btn-success w-auto px-5 py-2"
               >
