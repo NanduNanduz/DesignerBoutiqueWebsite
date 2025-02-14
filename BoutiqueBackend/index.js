@@ -28,6 +28,9 @@ app.use("/products", productRoutes);
 const cartRoutes = require("./routes/cartRoutes");
 app.use("/cart", cartRoutes);
 
+const orderRoutes = require("./routes/orderRoutes");
+app.use("/order", orderRoutes);
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running ${process.env.PORT}`);
 });
