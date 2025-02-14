@@ -23,14 +23,21 @@ const Kurti = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/products/list?category=kurti`) //  Backend filtering
+      .get(`${import.meta.env.VITE_API_URL}/products/list?category=kurti`)
       .then((response) => setKurtiList(response.data.products))
       .catch((error) => console.error("Error fetching kurtis:", error));
   }, []);
 
+  // Sorting logic
+  const sortedKurtis = [...kurtiList].sort((a, b) => {
+    if (sort === "price-low") return a.price - b.price;
+    if (sort === "price-high") return b.price - a.price;
+    return 0; // "Relevant" keeps original order
+  });
+
   return (
     <>
-      <Box 
+      <Box
         display="flex"
         flexDirection="row"
         maxWidth="1200px"
@@ -88,7 +95,7 @@ const Kurti = () => {
 
           {/* Product Grid Layout */}
           <Grid container spacing={3} justifyContent="center">
-            {kurtiList.map((kurti) => (
+            {sortedKurtis.map((kurti) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={kurti._id}>
                 <Card
                   sx={{

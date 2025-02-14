@@ -26,7 +26,7 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ["stripe", "cod"], // Stripe or Cash on Delivery
+    enum: ["stripe", "cod"], 
     required: true,
   },
   paymentStatus: {
