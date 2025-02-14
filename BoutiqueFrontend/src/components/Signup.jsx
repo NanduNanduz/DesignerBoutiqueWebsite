@@ -1,6 +1,4 @@
 
-
-
 import React, { useState } from "react";
 import {
   Container,
@@ -34,6 +32,7 @@ const SignupCard = styled(Paper)({
 
 const Signup = () => {
   const [form, setForm] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -41,18 +40,40 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
+  // const handleSignup = () => {
+  //   if (form.password !== form.confirmPassword) {
+  //     alert("Passwords do not match!");
+  //     return;
+  //   }
+  //   axios
+  //     .post(`${import.meta.env.VITE_API_URL}/users/register`, form)
+  //     .then((res) => {
+  //       alert(res.data.message);
+  //       navigate("/login");
+  //     })
+  //     .catch((error) => {
+  //       alert("Signup failed. Try again.");
+  //     });
+  // };
+
+
+
   const handleSignup = () => {
     if (form.password !== form.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
+
+    console.log("Sending signup data:", form); // Debug log
+
     axios
-      .post(`${import.meta.env.VITE_API_URL}/users/signup`, form)
+      .post(`${import.meta.env.VITE_API_URL}/users/register`, form)
       .then((res) => {
         alert(res.data.message);
         navigate("/login");
       })
       .catch((error) => {
+        console.error("Signup error:", error.response?.data || error.message);
         alert("Signup failed. Try again.");
       });
   };
@@ -71,6 +92,16 @@ const Signup = () => {
               Create Your Account
             </Typography>
             <Box component="form" noValidate autoComplete="off">
+              <TextField
+                fullWidth
+                label="Name"
+                name="name"
+                variant="outlined"
+                margin="normal"
+                onChange={(e) => {
+                  setForm({ ...form, name: e.target.value });
+                }}
+              />
               <TextField
                 fullWidth
                 label="Email"

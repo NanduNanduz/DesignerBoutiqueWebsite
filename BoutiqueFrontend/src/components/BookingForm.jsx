@@ -18,7 +18,7 @@ const AppointmentForm = () => {
 const handleSubmit = (e) => {
   e.preventDefault();
 
-  const phoneNumber = "+916238738546"; // Replace with the actual number (Country Code + Number)
+  const phoneNumber = "+916238738546";
   const message = `Hello, I would like to schedule an appointment.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPreferred Date: ${formData.preferredDate}\nAddress: ${formData.address}\nMessage: ${formData.message}`;
 
   // Encode the message for URL
