@@ -6,6 +6,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 const Newcollections = () => {
   const prevRef = useRef(null);
@@ -45,7 +47,41 @@ const Newcollections = () => {
         <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 mb-3">
           <h5 className="text-uppercase">New Collections</h5>
         </div>
-
+        {/* <Swiper
+          modules={[Navigation]}
+          spaceBetween={20}
+          slidesPerView={4}
+          breakpoints={{
+            0: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
+          }}
+          onSwiper={setSwiperInstance}
+          navigation={{
+            nextEl: nextRef.current,
+            prevEl: prevRef.current,
+          }}
+          className="swiper product-swiper"
+        >
+          {products.map((product, index) => (
+            <SwiperSlide key={index}>
+            
+              <div className="product-item">
+                <div className="image-holder">
+                  <img
+                    src={product.image[0]}
+                    alt={product.name}
+                    className="product-image img-fluid"
+                  />
+                </div>
+                <div className="product-content">
+                  <h5 className="product-title">{product.name}</h5>
+                  <span className="product-price">₹{product.price}</span>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper> */}
         <Swiper
           modules={[Navigation]}
           spaceBetween={20}
@@ -64,19 +100,24 @@ const Newcollections = () => {
         >
           {products.map((product, index) => (
             <SwiperSlide key={index}>
-              <div className="product-item">
-                <div className="image-holder">
-                  <img
-                    src={product.image[0]}
-                    alt={product.name}
-                    className="product-image img-fluid"
-                  />
+              <Link
+                to={`/product/${product._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <div className="product-item">
+                  <div className="image-holder">
+                    <img
+                      src={product.image[0]}
+                      alt={product.name}
+                      className="product-image img-fluid"
+                    />
+                  </div>
+                  <div className="product-content">
+                    <h5 className="product-title">{product.name}</h5>
+                    <span className="product-price">₹{product.price}</span>
+                  </div>
                 </div>
-                <div className="product-content">
-                  <h5 className="product-title">{product.name}</h5>
-                  <span className="product-price">₹{product.price}</span>
-                </div>
-              </div>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
