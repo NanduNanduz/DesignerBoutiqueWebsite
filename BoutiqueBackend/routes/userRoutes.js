@@ -82,6 +82,55 @@ router.post('/register',async(req,res)=>{
 
 
 //------------------------------User Login-------------------------
+// router.post("/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     // Find the user by email
+//     const user = await userModel.findOne({ email });
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "User not found" });
+//     }
+
+//     // Check if the password matches
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Invalid credentials" });
+//     }
+
+//     // Create JWT payload including the role
+//     const payload = {
+//       id: user._id,
+//       email: user.email,
+//       role: user.role,
+//     };
+
+//     // Generate token with a secret key
+//     const token = jwt.sign(payload, process.env.JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+
+//     // Send the token and role in the response
+//     res.status(200).json({
+//       success: true,
+//       message: "Login Successful",
+//       token: token,
+//       role: user.role,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: "Server error" });
+//   }
+// });
+
+
+
+
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -114,12 +163,16 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
-    // Send the token and role in the response
+    // Fetch user's cart
+    const cart = user.cartData?.items || [];
+
+    // Send the token, role, and cart in the response
     res.status(200).json({
       success: true,
       message: "Login Successful",
       token: token,
       role: user.role,
+      cart: cart,
     });
   } catch (error) {
     console.error(error);
