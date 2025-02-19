@@ -22,6 +22,7 @@ import ListItem from "./components/ListItem";
 import OrderItem from "./components/OrderItem";
 import UserProfile from "./components/UserProfile";
 import Success from "./components/Success";
+import ThankYou from "./components/ThankYou";
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/order-item" element={<Main child={<OrderItem />} />} />
         <Route path="/profile" element={<Main child={<UserProfile />} />} />
         <Route path="/success" element={<Main child={<Success />} />} />
+        <Route path="/thank-you" element={<Main child={<ThankYou />} />} />
 
         <Route path="/" element={<Main child={<Home />} />} />
 
