@@ -122,7 +122,8 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
     <form onSubmit={handleSubmit}>
       <CardElement className="form-control mb-3 p-3" />
       <button
-        className="btn btn-dark w-100 py-2"
+        className="btn  w-100 py-2"
+        style={{ backgroundColor: "rgb(214, 189, 177)", color: "rgb(110, 76, 59)" }}
         type="submit"
         disabled={!stripe || loading}
       >
@@ -168,12 +169,17 @@ const Checkout = () => {
   return (
     <>
       <div className="container my-5">
-        <h2 className="text-center fw-bold mb-4">Checkout</h2>
+        <h2 className="text-center  mb-4" style={{ color: "#A48374" }}>
+          Checkout
+        </h2>
         <div className="row">
           {/* Delivery Information */}
           <div className="col-md-6">
-            <h4 className="fw-bold">
-              DELIVERY <span className="text-primary">INFORMATION</span>
+            <h4 className="fw-bold" style={{ color: " #A48374" }}>
+              DELIVERY{" "}
+              <span className="text" style={{ color: "rgb(229, 197, 182)" }}>
+                INFORMATION
+              </span>
             </h4>
             <form>
               <div className="row mb-3">
@@ -221,6 +227,7 @@ const Checkout = () => {
               <div className="row mb-3">
                 <div className="col">
                   <input
+                    color=" rgb(143, 112, 79)"
                     type="text"
                     className="form-control"
                     placeholder="City"
@@ -280,30 +287,46 @@ const Checkout = () => {
 
           {/* Cart Totals */}
           <div className="col-md-6">
-            <h4 className="fw-bold">
-              CART <span className="text-primary">TOTALS</span>
+            <h4 className="fw-bold" style={{ color: " #A48374" }}>
+              CART{" "}
+              <span className="text" style={{ color: "rgb(229, 197, 182)" }}>
+                TOTALS
+              </span>
             </h4>
             <div className="mb-3">
               <p className="d-flex justify-content-between">
-                <span>Subtotal</span> <strong>₹{subtotal.toFixed(2)}</strong>
+                <span style={{ color: "rgb(143, 112, 79)" }}>Subtotal</span>{" "}
+                <strong style={{ color: "#A48374" }}>
+                  ₹{subtotal.toFixed(2)}
+                </strong>
               </p>
               <p className="d-flex justify-content-between">
-                <span>Shipping Fee</span>{" "}
-                <strong>₹{shippingFee.toFixed(2)}</strong>
+                <span style={{ color: "rgb(143, 112, 79)" }}>Shipping Fee</span>{" "}
+                <strong style={{ color: "#A48374" }}>
+                  ₹{shippingFee.toFixed(2)}
+                </strong>
               </p>
               <hr />
               <p className="d-flex justify-content-between fw-bold">
-                <span>Total</span>{" "}
-                <strong>₹{(subtotal + shippingFee).toFixed(2)}</strong>
+                <span style={{ color: "rgb(143, 112, 79)" }}>Total</span>{" "}
+                <strong style={{ color: "#A48374" }}>
+                  ₹{(subtotal + shippingFee).toFixed(2)}
+                </strong>
               </p>
             </div>
 
             {/* Payment Method */}
-            <h5 className="fw-bold">
-              PAYMENT <span className="text-primary">METHOD</span>
+            <h5 className="fw-bold" style={{ color: " #A48374" }}>
+              PAYMENT{" "}
+              <span className="text" style={{ color: "rgb(229, 197, 182)" }}>
+                METHOD
+              </span>
             </h5>
             <div className="d-flex align-items-center gap-3 my-3">
-              <label className="d-flex align-items-center gap-2">
+              <label
+                className="d-flex align-items-center gap-2"
+                style={{ color: "rgb(143, 112, 79)" }}
+              >
                 <input
                   type="radio"
                   name="payment"
@@ -311,7 +334,8 @@ const Checkout = () => {
                   checked={paymentMethod === "stripe"}
                   onChange={() => setPaymentMethod("stripe")}
                 />
-                <img src="/stripe-logo.png" alt="Stripe" width="80" />
+
+                <img src="/stripe.png" alt="Stripe" width="30" />
               </label>
 
               <label className="d-flex align-items-center gap-2">
@@ -322,7 +346,12 @@ const Checkout = () => {
                   checked={paymentMethod === "cod"}
                   onChange={() => setPaymentMethod("cod")}
                 />
-                <span className="fw-bold">CASH ON DELIVERY</span>
+                <span
+                  className="fw-bold"
+                  style={{ color: "rgb(143, 112, 79)" }}
+                >
+                  CASH ON DELIVERY
+                </span>
               </label>
             </div>
 
@@ -337,7 +366,13 @@ const Checkout = () => {
             )}
             {paymentMethod === "cod" && (
               <div className="text-center">
-                <button className="btn btn-dark w-100 py-2">
+                <button
+                  className="btn  w-100 py-2"
+                  style={{
+                    color: "rgb(143, 112, 79)",
+                    backgroundColor: "rgb(214, 189, 177)",
+                  }}
+                >
                   Confirm Order (Cash on Delivery)
                 </button>
               </div>
