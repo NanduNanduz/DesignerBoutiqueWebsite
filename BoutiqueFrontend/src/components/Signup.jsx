@@ -79,9 +79,9 @@ const Signup = () => {
   };
 
   return (
-    <>
+    <div>
       <Background>
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" style={{ marginTop: '20px' }}>
           <SignupCard elevation={3}>
             <Typography
               variant="h4"
@@ -154,7 +154,7 @@ const Signup = () => {
         </Container>
       </Background>
       <Footer /> {/* Moved outside Background */}
-    </>
+    </div>
   );
 };
 
