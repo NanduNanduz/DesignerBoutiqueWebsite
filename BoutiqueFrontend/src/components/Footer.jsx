@@ -22,16 +22,16 @@ const Footer = () => {
           <h3 style={{ color: "#CBAD8D" }}>Quick Links</h3>
           <ul>
             <li>
-              <a href="/about">About Us</a>
+              <a href="/">Home</a>
             </li>
             <li>
-              <a href="/collection">Our Collection</a>
+              <a href="/new-collections">Our Collection</a>
             </li>
             <li>
-              <a href="/appointment">Book an Appointment</a>
+              <a href="/schedule-appointment">Book an Appointment</a>
             </li>
             <li>
-              <a href="/contact">Contact</a>
+              <a href="/schedule-appointment">Contact</a>
             </li>
           </ul>
         </div>
@@ -46,26 +46,31 @@ const Footer = () => {
         <div className="footer-section social-media">
           <h3 style={{ color: "#CBAD8D" }}>Follow Us</h3>
           <div className="social-icons">
-            <a href="#" aria-label="Facebook">
+            <a href="https://www.facebook.com/" aria-label="Facebook">
               <FaFacebookF />
             </a>
-            <a href="#" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/accounts/login/?hl=en"
+              aria-label="Instagram"
+            >
               <FaInstagram />
             </a>
-            <a href="#" aria-label="Twitter">
+            <a
+              href="https://x.com/i/flow/login?lang=en&mx=2"
+              aria-label="Twitter"
+            >
               <FaTwitter />
             </a>
-            <a href="#" aria-label="Pinterest">
+            <a href="https://in.pinterest.com/login/" aria-label="Pinterest">
               <FaPinterestP />
             </a>
           </div>
         </div>
       </div>
-      
+
       <div className="footer-bottom">
         <p style={{ color: "#CBAD8D" }}>
-          &copy; {new Date().getFullYear()}{" "}
-         Trendora. All rights reserved.
+          &copy; {new Date().getFullYear()} Trendora. All rights reserved.
         </p>
       </div>
     </footer>
