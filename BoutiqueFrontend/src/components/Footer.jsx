@@ -31,7 +31,7 @@ const Footer = () => {
               <a href="/schedule-appointment">Book an Appointment</a>
             </li>
             <li>
-              <a href="/schedule-appointment">Contact</a>
+              <a href="/schedule-appointment">Contact Us</a>
             </li>
           </ul>
         </div>
