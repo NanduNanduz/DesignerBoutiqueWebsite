@@ -1,7 +1,7 @@
 const express = require("express");
-const Order = require("../model/orderData"); // Import Order model
-const {verifyToken} = require("../middleware/userAuth"); // Adjust as per your middleware
-const userModel = require("../model/userData"); // Import user model
+const Order = require("../model/orderData"); 
+const {verifyToken} = require("../middleware/userAuth"); 
+const userModel = require("../model/userData");
 
 const router = express.Router();
 
