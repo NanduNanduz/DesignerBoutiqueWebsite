@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
-  product: [
+  products: [
     {
       productId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,7 +33,7 @@ const orderSchema = new mongoose.Schema({
   paymentStatus: {
     type: String,
     enum: ["Pending", "Paid", "Failed"],
-    default: "Pending",
+    default: "Paid",
   },
   shippingDetails: {
     address: { type: String, required: true },

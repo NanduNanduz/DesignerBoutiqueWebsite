@@ -69,21 +69,18 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
           return;
         }
 
-        // Get cart items
         const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        console.log("📦 Raw Cart Items from Local Storage:", cartItems);
 
-        // Ensure correct product format
-     const formattedCartItems = cartItems.map((item) => ({
-       productId: item.productId, // Make sure this is populated
-       name: item.name,
-       size: item.size,
-       price: item.price,
-       quantity: item.quantity,
-       image: item.image,
-     }));
-
-console.log("Raw Cart Items:", cartItems);
-console.log("Formatted Cart Items:", formattedCartItems);
+        const formattedCartItems = cartItems.map((item) => ({
+          productId: item.productId || item._id, // Ensure correct product ID
+          name: item.name,
+          size: item.size,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image,
+        }));
+      console.log("✅ Formatted Cart Items to be Sent:", formattedCartItems);
 
 
         const fullAddress = `${shippingInfo.street}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}, ${shippingInfo.country}`;

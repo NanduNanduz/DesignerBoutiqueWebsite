@@ -9,15 +9,27 @@ const router = express.Router();
 // Create a New Order
 router.post("/createOrder", verifyToken, async (req, res) => {
   try {
-    const { product, totalAmount, paymentStatus, paymentMethod, shippingDetails } = req.body;
+    const {
+      products,
+      totalAmount,
+      paymentStatus,
+      paymentMethod,
+      shippingDetails,
+    } = req.body;
     const userId = req.user.id;
+
+    if (!products || products.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "No products found in the order" });
+    }
 
     const user = await userModel.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const newOrder = new Order({
       userId,
-      product,
+      products, // ✅ Ensure products are being stored
       totalAmount,
       paymentMethod,
       shippingDetails,
@@ -28,12 +40,17 @@ router.post("/createOrder", verifyToken, async (req, res) => {
     user.cartData.items = [];
     await user.save();
 
-    res.status(200).json({ message: "Order placed successfully", order: newOrder });
+    res
+      .status(200)
+      .json({ message: "Order placed successfully", order: newOrder });
   } catch (error) {
-    console.error("Error creating order:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
+    console.error("🚨 Error creating order:", error);
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 });
+
 
 module.exports = router;
 

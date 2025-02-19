@@ -27,10 +27,16 @@ const Cart = () => {
 
       setCart(response.data);
       calculateSubtotal(response.data);
+       localStorage.setItem("cart", JSON.stringify(response.data));
     } catch (error) {
       console.error("Error loading cart:", error);
     }
   };
+
+
+   useEffect(() => {
+     localStorage.setItem("cart", JSON.stringify(cart));
+   }, [cart]);
 
   const calculateSubtotal = (cartItems) => {
     const total = cartItems.reduce(
@@ -78,20 +84,38 @@ const Cart = () => {
     }
   };
 
-  const handleProceedToCheckout = () => {
-    // Map the cart items to pass the necessary details for checkout
-    const cartItems = cart.map((item) => ({
-      productId: item._id, // Ensure productId is correctly passed
-      quantity: item.quantity,
-      size: item.size,
-      price: item.price,
-      name: item.name,
-    }));
+const handleProceedToCheckout = () => {
+  let cartItems;
 
-    navigate("/checkout", {
-      state: { cart: cartItems, subtotal, shippingFee },
-    });
-  };
+  try {
+   cartItems = localStorage.getItem("cart")
+     ? JSON.parse(localStorage.getItem("cart"))
+     : cart;
+
+  } catch (error) {
+    console.error("Error parsing cart from localStorage:", error);
+    cartItems = cart; // Fallback to the state cart
+  }
+
+  if (!cartItems || cartItems.length === 0) {
+    alert("Cart is empty! Add products before proceeding.");
+    return;
+  }
+
+  cartItems = cartItems.map((item) => ({
+    productId: item._id,
+    quantity: item.quantity,
+    size: item.size,
+    price: item.price,
+    name: item.name,
+  }));
+
+  navigate("/checkout", {
+    state: { cart: cartItems, subtotal, shippingFee },
+  });
+};
+
+
 
   return (
     <div
