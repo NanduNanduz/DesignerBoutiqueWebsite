@@ -30,6 +30,13 @@ const Lehenga = () => {
       .catch((error) => console.error("Error fetching lehengas:", error));
   }, []);
 
+  // Sorting logic
+  const sortedLehengas = [...lehengaList].sort((a, b) => {
+    if (sort === "price-low") return a.price - b.price;
+    if (sort === "price-high") return b.price - a.price;
+    return 0; // "Relevant" keeps original order
+  });
+
   return (
     <>
       <Box
@@ -90,7 +97,7 @@ const Lehenga = () => {
 
           {/* Product Grid Layout */}
           <Grid container spacing={3} justifyContent="center">
-            {lehengaList.map((lehenga) => (
+            {sortedLehengas.map((lehenga) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={lehenga._id}>
                 <Card
                   sx={{

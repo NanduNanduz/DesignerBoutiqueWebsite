@@ -31,6 +31,14 @@ const Saree = () => {
       .catch((error) => console.error("Error fetching sarees:", error));
   }, []);
 
+    // Sorting logic
+  const sortedSarees = [...sareeList].sort((a, b) => {
+    if (sort === "price-low") return a.price - b.price;
+    if (sort === "price-high") return b.price - a.price;
+    return 0; // "Relevant" keeps original order
+  });
+
+
   return (
     <>
       <Box
@@ -96,7 +104,7 @@ const Saree = () => {
 
           {/* Product Grid Layout */}
           <Grid container spacing={3} justifyContent="center">
-            {sareeList.map((saree) => (
+            {sortedSarees.map((saree) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={saree._id}>
                 <Card
                   sx={{
