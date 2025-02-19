@@ -317,3 +317,110 @@ body {
 }
 
 
+
+
+
+/* Appointment Form Container */
+.appointment-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title */
+.appointment-title {
+  font-size: 24px;
+  color: #A48374;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input Row */
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* Inputs */
+.form-row input,
+.form-row textarea {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Textarea */
+.form-row textarea {
+  resize: none;
+  height: 40px;
+}
+
+/* WhatsApp Button */
+.whatsapp-btn {
+  width: 100%;
+  background-color: #A48374;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.whatsapp-btn:hover {
+  background-color: #8b6c5e;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+
+.thank-you-container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+h1 {
+  color: #4CAF50;
+}
+
+p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.home-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.home-btn:hover {
+  background-color: #45a049;
+}
+
+
+
