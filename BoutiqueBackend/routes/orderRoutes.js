@@ -2,6 +2,8 @@ const express = require("express");
 const Order = require("../model/orderData"); 
 const {verifyToken} = require("../middleware/userAuth"); 
 const userModel = require("../model/userData");
+const mongoose = require("mongoose");
+
 
 const router = express.Router();
 
@@ -68,9 +70,6 @@ router.get("/allOrders", verifyToken, async (req, res) => {
 
 
 
-
-
-
 router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
   try {
     const { orderStatus } = req.body;
@@ -85,6 +84,20 @@ router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
     res.status(200).json({ message: "Order status updated", order });
   } catch (error) {
     console.error("Error updating order status:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+router.get("/user-orders", verifyToken, async (req, res) => {
+  try {
+    console.log("User ID from Token:", req.user.id);
+
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+    const orders = await Order.find({ userId }).populate("products.productId");
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
