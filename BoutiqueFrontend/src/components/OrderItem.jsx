@@ -152,6 +152,10 @@
 // export default Orders;
 
 
+
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -171,7 +175,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/orders/orderInfo`,
+          `${import.meta.env.VITE_API_URL}/order/allOrders`,
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("logintoken")}`,
@@ -189,11 +193,13 @@ const Orders = () => {
         // Format orders to match frontend structure
         const formattedOrders = data.map((order) => ({
           id: order._id,
-          image: order.product[0]?.image || "/default.jpg",
-          product: order.product[0]?.name || "Unknown Product",
-          quantity: order.product[0]?.quantity || 1,
-          size: order.product[0]?.size || "N/A",
-          price: order.totalAmount,
+          products: order.products.map((prod) => ({
+            image: prod.image || "/default.jpg",
+            name: prod.name || "Unknown Product",
+            quantity: prod.quantity || 1,
+            size: prod.size || "N/A",
+          })),
+          totalAmount: order.totalAmount,
           customer: order.userId?.name || "Unknown Customer",
           address: `${order.shippingDetails.address}, ${order.shippingDetails.city}, ${order.shippingDetails.state}, ${order.shippingDetails.zip}, ${order.shippingDetails.country}`,
           method: order.paymentMethod.toUpperCase(),
@@ -211,10 +217,11 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
+  // Handle Order Status Change
   const handleStatusChange = async (id, newStatus) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/orders/updateOrderStatus/${id}`,
+        `${import.meta.env.VITE_API_URL}/order/updateOrderStatus/${id}`,
         {
           method: "PUT",
           headers: {
@@ -249,56 +256,65 @@ const Orders = () => {
           Order Page
         </Typography>
 
-        {orders.map((order) => (
-          <Paper key={order.id} sx={{ p: 2, mb: 2 }}>
-            <Box display="flex" alignItems="center">
-              {/* Product Image */}
-              <img
-                src={order.image}
-                alt={order.product}
-                width="50"
-                height="50"
-                style={{ borderRadius: "8px", marginRight: "16px" }}
-              />
-
-              <Box flexGrow={1}>
-                {/* Product & Customer Details */}
-                <Typography>
-                  <strong>{order.product}</strong> x {order.quantity}{" "}
-                  {order.size}
-                </Typography>
-                <Typography>{order.customer}</Typography>
-                <Typography sx={{ fontSize: "14px", color: "gray" }}>
-                  {order.address}
-                </Typography>
-
+        {orders.length === 0 ? (
+          <Typography>No orders available</Typography>
+        ) : (
+          orders.map((order) => (
+            <Paper key={order.id} sx={{ p: 2, mb: 2 }}>
+              <Box display="flex" alignItems="center">
                 {/* Order Details */}
-                <Typography>Items: {order.quantity}</Typography>
-                <Typography>${order.price}</Typography>
-                <Typography>Method: {order.method}</Typography>
-                <Typography>Payment: {order.paymentStatus}</Typography>
-                <Typography>Date: {order.date}</Typography>
-              </Box>
+                <Box flexGrow={1}>
+                  {/* Product Details */}
+                  {order.products.map((product, index) => (
+                    <Box key={index} display="flex" alignItems="center" mt={2}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        width="50"
+                        height="50"
+                        style={{ borderRadius: "8px", marginRight: "16px" }}
+                      />
+                      <Typography>
+                        <strong>{product.name}</strong> x {product.quantity}{" "}
+                        {product.size}
+                      </Typography>
+                    </Box>
+                  ))}
+                  <Typography>
+                    <strong>Customer:</strong> {order.customer}
+                  </Typography>
+                  <Typography sx={{ fontSize: "14px", color: "gray" }}>
+                    {order.address}
+                  </Typography>
+                  <Typography>Method: {order.method}</Typography>
+                  <Typography>Payment: {order.paymentStatus}</Typography>
+                  <Typography>Date: {order.date}</Typography>
+                  <Typography>
+                    <strong>Total Amount: </strong>₹{order.totalAmount}
+                  </Typography>
+                </Box>
 
-              {/* Order Status Dropdown */}
-              <FormControl variant="outlined" sx={{ minWidth: 150 }}>
-                <Select
-                  value={order.status}
-                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                >
-                  <MenuItem value="Pending">Pending</MenuItem>
-                  <MenuItem value="Shipped">Shipped</MenuItem>
-                  <MenuItem value="Delivered">Delivered</MenuItem>
-                  <MenuItem value="Cancelled">Cancelled</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Paper>
-        ))}
+                {/* Order Status Dropdown */}
+                <FormControl variant="outlined" sx={{ minWidth: 180 }}>
+                  <Select
+                    value={order.status}
+                    onChange={(e) =>
+                      handleStatusChange(order.id, e.target.value)
+                    }
+                  >
+                    <MenuItem value="Pending">Order Pending</MenuItem>
+                    <MenuItem value="Shipped">Order Shipped</MenuItem>
+                    <MenuItem value="Delivered">Order Delivered</MenuItem>
+                    <MenuItem value="Cancelled">Order Cancelled</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Paper>
+          ))
+        )}
       </Box>
     </AdminLayout>
   );
 };
 
 export default Orders;
-
