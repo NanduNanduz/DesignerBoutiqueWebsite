@@ -23,6 +23,7 @@ import OrderItem from "./components/OrderItem";
 import UserProfile from "./components/UserProfile";
 import Success from "./components/Success";
 import ThankYou from "./components/ThankYou";
+import ScrollToSection from "./components/ScrollToSection";
 
 const App = () => {
   return (
@@ -31,8 +32,8 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/login" element={<Main child={<Login />} />} />
         <Route path="/signup" element={<Main child={<Signup />} />} />
-        <Route path="/new-collections" element={<Newcollections />} />
-        <Route path="/book-appointment" element={<Bookappointment />} />
+        {/* <Route path="/new-collections" element={<Newcollections />} />
+        <Route path="/book-appointment" element={<Bookappointment />} /> */}
         <Route path="/kurti" element={<Main child={<Kurti />} />} />
         <Route path="/lehenga" element={<Main child={<Lehenga />} />} />
         <Route path="/saree" element={<Main child={<Saree />} />} />
@@ -59,6 +60,7 @@ const App = () => {
             element={<Main child={<AdminDashboard />} />}
           />
         </Route>
+        <Route path="/*" element={<ScrollToSection />} />
       </Routes>
     </div>
   );
