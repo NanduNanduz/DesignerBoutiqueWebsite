@@ -131,6 +131,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Paper, Avatar, Divider } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
+import Footer from "../components/Footer";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -188,103 +189,107 @@ useEffect(() => {
   }
 
   return (
-    <Box
-      sx={{
-        p: 4,
-        maxWidth: "800px",
-        mx: "auto",
-        backgroundColor: "#F7F1EE",
-        borderRadius: "12px",
-        boxShadow: 3,
-        mt:'2%'
-      }}
-    >
-      <Box display="flex" alignItems="center" gap={2} mb={2}>
-        <Avatar
-          sx={{ bgcolor: "#3A2D28", color: "white", width: 56, height: 56 }}
-        >
-          {user.name ? user.name.charAt(0).toUpperCase() : "U"}
-        </Avatar>
-        <Box>
-          <Typography variant="h5" fontWeight="bold" color="#3A2D28">
-            Welcome, {user.name}
-          </Typography>
-          <Typography color="#A48374">Email: {user.email}</Typography>
-        </Box>
-      </Box>
-
-      <Divider sx={{ my: 2, bgcolor: "#CBAD8D" }} />
-
-      <Typography variant="h6" fontWeight="bold" color="#3A2D28" mb={2}>
-        Your Orders
-      </Typography>
-
-      {orders.length === 0 ? (
-        <Typography color="#A48374">No orders found.</Typography>
-      ) : (
-        orders.map((order) => (
-          <Paper
-            key={order._id}
-            sx={{ p: 3, mb: 2, backgroundColor: "#D1C7BD" }}
+    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          p: 4,
+          maxWidth: "800px",
+          mx: "auto",
+          backgroundColor: "#F7F1EE",
+          borderRadius: "12px",
+          boxShadow: 3,
+          mt: "2%",
+        }}
+      >
+        <Box display="flex" alignItems="center" gap={2} mb={2}>
+          <Avatar
+            sx={{ bgcolor: "#3A2D28", color: "white", width: 56, height: 56 }}
           >
-            <Typography>
-              <strong>Order ID:</strong> {order._id}
+            {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+          </Avatar>
+          <Box>
+            <Typography variant="h5" fontWeight="bold" color="#3A2D28">
+              Welcome, {user.name}
             </Typography>
-            <Typography>
-              <strong>Total Price:</strong> ₹{order.totalAmount}
-            </Typography>
-            <Typography>
-              <strong>Payment Method:</strong>{" "}
-              {order.paymentMethod.toUpperCase()}
-            </Typography>
-            <Typography>
-              <strong>Payment Status:</strong> {order.paymentStatus}
-            </Typography>
-            <Typography>
-              <strong>Order Status:</strong> {order.orderStatus}
-            </Typography>
-            <Typography>
-              <strong>Order Date:</strong>{" "}
-              {new Date(order.createdAt).toLocaleDateString()}
-            </Typography>
+            <Typography color="#A48374">Email: {user.email}</Typography>
+          </Box>
+        </Box>
 
-            <Divider sx={{ my: 2, bgcolor: "#CBAD8D" }} />
-            <Typography variant="h6" color="#3A2D28">
-              Products:
-            </Typography>
-            {order.products.map((product, index) => (
-              <Paper
-                key={index}
-                sx={{ p: 2, mt: 1, backgroundColor: "#F7F1EE" }}
-              >
-                <Box display="flex" alignItems="center" gap={2}>
-                  <img
-                    src={product.image || "/default.jpg"}
-                    alt={product.name}
-                    width="60"
-                    height="60"
-                    style={{ borderRadius: "8px" }}
-                  />
-                  <Box>
-                    <Typography fontWeight="bold" color="#3A2D28">
-                      {product.name}
-                    </Typography>
-                    <Typography color="#A48374">
-                      Quantity: {product.quantity}
-                    </Typography>
-                    <Typography color="#A48374">
-                      Size: {product.size}
-                    </Typography>
-                    <Typography color="#A48374">
-                      Price: ₹{product.price}
-                    </Typography>
+        <Divider sx={{ my: 2, bgcolor: "#CBAD8D" }} />
+
+        <Typography variant="h6" fontWeight="bold" color="#3A2D28" mb={2}>
+          Your Orders
+        </Typography>
+
+        {orders.length === 0 ? (
+          <Typography color="#A48374">No orders found.</Typography>
+        ) : (
+          orders.map((order) => (
+            <Paper
+              key={order._id}
+              sx={{ p: 3, mb: 2, backgroundColor: "#D1C7BD" }}
+            >
+              <Typography>
+                <strong>Order ID:</strong> {order._id}
+              </Typography>
+              <Typography>
+                <strong>Total Price:</strong> ₹{order.totalAmount}
+              </Typography>
+              <Typography>
+                <strong>Payment Method:</strong>{" "}
+                {order.paymentMethod.toUpperCase()}
+              </Typography>
+              <Typography>
+                <strong>Payment Status:</strong> {order.paymentStatus}
+              </Typography>
+              <Typography>
+                <strong>Order Status:</strong> {order.orderStatus}
+              </Typography>
+              <Typography>
+                <strong>Order Date:</strong>{" "}
+                {new Date(order.createdAt).toLocaleDateString()}
+              </Typography>
+
+              <Divider sx={{ my: 2, bgcolor: "#CBAD8D" }} />
+              <Typography variant="h6" color="#3A2D28">
+                Products:
+              </Typography>
+              {order.products.map((product, index) => (
+                <Paper
+                  key={index}
+                  sx={{ p: 2, mt: 1, backgroundColor: "#F7F1EE" }}
+                >
+                  <Box display="flex" alignItems="center" gap={2}>
+                    <img
+                      src={product.image || "/default.jpg"}
+                      alt={product.name}
+                      width="60"
+                      height="60"
+                      style={{ borderRadius: "8px" }}
+                    />
+                    <Box>
+                      <Typography fontWeight="bold" color="#3A2D28">
+                        {product.name}
+                      </Typography>
+                      <Typography color="#A48374">
+                        Quantity: {product.quantity}
+                      </Typography>
+                      <Typography color="#A48374">
+                        Size: {product.size}
+                      </Typography>
+                      <Typography color="#A48374">
+                        Price: ₹{product.price}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Paper>
-            ))}
-          </Paper>
-        ))
-      )}
+                </Paper>
+              ))}
+            </Paper>
+          ))
+        )}
+      </Box>
+      {/* Footer should always be at the bottom */}
+      <Footer />
     </Box>
   );
 };
