@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -26,7 +25,7 @@ const ListItems = () => {
 
   const fetchProducts = () => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/products/list`) // Adjust API URL
+      .get(`${import.meta.env.VITE_API_URL}/products/list`)
       .then((response) => {
         if (response.data.success) {
           setProducts(response.data.products);
@@ -39,42 +38,37 @@ const ListItems = () => {
       });
   };
 
-const handleDelete = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this product?")) {
-    return;
-  }
-
-  try {
-    const token = sessionStorage.getItem("logintoken"); // Retrieve token
-    console.log("Token being sent:", token); // Debugging
-
-    if (!token) {
-      console.error("No token found. Make sure admin is logged in.");
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) {
       return;
     }
 
-    const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/products/remove`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Send token in headers
-        },
-        data: { id }, // DELETE requests require 'data'
+    try {
+      const token = sessionStorage.getItem("logintoken");
+      console.log("Token being sent:", token);
+      if (!token) {
+        console.error("No token found. Make sure admin is logged in.");
+        return;
       }
-    );
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/products/remove`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: { id }, // DELETE requests require 'data'
+        }
+      );
 
-    if (response.data.success) {
-      setProducts(products.filter((product) => product._id !== id));
-    } else {
-      console.error("Error deleting product:", response.data.message);
+      if (response.data.success) {
+        setProducts(products.filter((product) => product._id !== id));
+      } else {
+        console.error("Error deleting product:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error.response?.data || error);
     }
-  } catch (error) {
-    console.error("Error deleting product:", error.response?.data || error);
-  }
-};
-
-
-
+  };
 
   return (
     <AdminLayout>
@@ -109,7 +103,7 @@ const handleDelete = async (id) => {
                 <TableRow key={product._id}>
                   <TableCell>
                     <img
-                      src={product.image[0]} // Assuming image is stored as an array
+                      src={product.image[0]}
                       alt={product.name}
                       width="50"
                       height="50"
@@ -122,7 +116,6 @@ const handleDelete = async (id) => {
                   <TableCell>
                     <IconButton
                       sx={{ color: "#A48374" }}
-                
                       onClick={() => handleDelete(product._id)}
                     >
                       <DeleteIcon />

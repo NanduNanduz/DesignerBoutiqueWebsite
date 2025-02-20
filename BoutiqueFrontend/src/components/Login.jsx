@@ -11,8 +11,7 @@ import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import Footer from "../components/Footer"
-
+import Footer from "../components/Footer";
 
 const Background = styled(Box)({
   display: "flex",
@@ -31,48 +30,41 @@ const LoginCard = styled(Paper)({
   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
 });
 
-
-
 const Login = () => {
-
-  
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
-
-
- function capValue() {
-   axios
-     .post(`${import.meta.env.VITE_API_URL}/users/login`, form)
-     .then((res) => {
-       console.log(res);
-       alert(res.data.message);
-       //if token is with the data then it is save in the frontend
-       if (res.data.token) {
-         const token = res.data.token;
-         sessionStorage.setItem("logintoken", token);
-         //if token is generated it will navigate to home page
-         const decodedToken = jwtDecode(token);
-         sessionStorage.setItem("role", decodedToken.role);
-
-         //  Redirect based on role
-         if (decodedToken.role === "admin") {
-           navigate("/admin-dashboard"); // Redirect admin to dashboard
-         } else {
-           navigate("/"); // Redirect normal users to home page
-         }
-       } else {
-         navigate("/login"); // Stay on login page if failed
-       }
-     })
-     .catch((error) => {
-       alert("Invalid Login");
-     });
- }
+  function capValue() {
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/users/login`, form)
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message);
+        //if token is with the data then it is save in the frontend
+        if (res.data.token) {
+          const token = res.data.token;
+          sessionStorage.setItem("logintoken", token);
+          //if token is generated it will navigate to home page
+          const decodedToken = jwtDecode(token);
+          sessionStorage.setItem("role", decodedToken.role);
+          //  Redirect based on role
+          if (decodedToken.role === "admin") {
+            navigate("/admin-dashboard"); // Redirect admin to dashboard
+          } else {
+            navigate("/"); // Redirect normal users to home page
+          }
+        } else {
+          navigate("/login"); // Stay on login page if failed
+        }
+      })
+      .catch((error) => {
+        alert("Invalid Login");
+      });
+  }
 
   return (
     <>
@@ -130,10 +122,9 @@ const Login = () => {
           </LoginCard>
         </Container>
       </Background>
-      <Footer /> {/* Moved outside Background */}
+      <Footer />
     </>
   );
-
 };
 
 export default Login;

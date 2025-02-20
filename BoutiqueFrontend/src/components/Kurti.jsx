@@ -28,11 +28,11 @@ const Kurti = () => {
       .catch((error) => console.error("Error fetching kurtis:", error));
   }, []);
 
-  // Sorting logic
+  // Sorting
   const sortedKurtis = [...kurtiList].sort((a, b) => {
     if (sort === "price-low") return a.price - b.price;
     if (sort === "price-high") return b.price - a.price;
-    return 0; // "Relevant" keeps original order
+    return 0;
   });
 
   return (
@@ -66,7 +66,7 @@ const Kurti = () => {
           </FormGroup>
         </Box>
 
-        {/* Main Content - Collection */}
+        {/* Main Content*/}
         <Box flex={1}>
           <Box
             display="flex"

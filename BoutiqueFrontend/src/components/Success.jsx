@@ -1,7 +1,5 @@
-
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import { colors } from "@mui/material";
 
 const Success = () => {
   return (

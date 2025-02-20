@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
@@ -31,7 +30,7 @@ const ProductItem = () => {
           }
         );
 
-        setCart(response.data); // Assuming cartData contains items with productId, size, etc.
+        setCart(response.data);
       } catch (error) {
         console.error("Error fetching cart data:", error);
       }
@@ -68,47 +67,43 @@ const ProductItem = () => {
     setErrorMessage("");
   };
 
- const handleAddToCart = async () => {
-   if (!selectedSize) {
-     setErrorMessage("⚠️ Please select a product size!");
-     return;
-   }
+  const handleAddToCart = async () => {
+    if (!selectedSize) {
+      setErrorMessage("⚠️ Please select a product size!");
+      return;
+    }
 
-   const token =
-     localStorage.getItem("token") || sessionStorage.getItem("logintoken");
-   if (!token) {
-     alert("Please log in to add items to the cart.");
-     return;
-   }
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("logintoken");
+    if (!token) {
+      alert("Please log in to add items to the cart.");
+      return;
+    }
 
-   try {
-     const response = await axios.post(
-       `${import.meta.env.VITE_API_URL}/cart/addToCart`,
-       {
-         productId: product._id,
-         size: selectedSize,
-         quantity: 1,
-       },
-       {
-         headers: { Authorization: `Bearer ${token}` },
-       }
-     );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/cart/addToCart`,
+        {
+          productId: product._id,
+          size: selectedSize,
+          quantity: 1,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-     if (response.status === 200) {
-       alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
-
-       // ✅ Update Local Storage
-       const updatedCart = response.data.cart.items;
-       localStorage.setItem("cart", JSON.stringify(updatedCart));
-
-       setCart(updatedCart); // ✅ Update state after storing
-     }
-   } catch (error) {
-     console.error("Error adding to cart:", error);
-     alert("Failed to add item to cart.");
-   }
- };
-
+      if (response.status === 200) {
+        alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
+        const updatedCart = response.data.cart.items;
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        setCart(updatedCart);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add item to cart.");
+    }
+  };
 
   return (
     <div

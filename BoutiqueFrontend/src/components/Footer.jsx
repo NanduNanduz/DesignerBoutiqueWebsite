@@ -5,7 +5,6 @@ import {
   FaTwitter,
   FaPinterestP,
 } from "react-icons/fa";
- // Make sure to create and import this CSS file
 
 const Footer = () => {
   return (

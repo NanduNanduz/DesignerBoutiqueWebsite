@@ -3,10 +3,10 @@ import React from "react";
 const Bookappointment = () => {
   const sectionStyle = {
     backgroundImage:
-      'url("https://dlibaas.com/cdn/shop/files/dollar-gill-oH-PNVWykUo-unsplash_1_1024x1024.png?v=1649104034")', // Replace with your image URL
+      'url("https://dlibaas.com/cdn/shop/files/dollar-gill-oH-PNVWykUo-unsplash_1_1024x1024.png?v=1649104034")',
     backgroundSize: "cover",
     backgroundPosition: "center",
-    height: "100vh", // You can adjust the height as needed
+    height: "100vh",
   };
 
   return (

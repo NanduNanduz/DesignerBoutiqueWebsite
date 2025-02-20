@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -31,13 +28,12 @@ const Saree = () => {
       .catch((error) => console.error("Error fetching sarees:", error));
   }, []);
 
-    // Sorting logic
+  // Sorting
   const sortedSarees = [...sareeList].sort((a, b) => {
     if (sort === "price-low") return a.price - b.price;
     if (sort === "price-high") return b.price - a.price;
-    return 0; // "Relevant" keeps original order
+    return 0;
   });
-
 
   return (
     <>
@@ -70,7 +66,7 @@ const Saree = () => {
           </FormGroup>
         </Box>
 
-        {/* Main Content - Collection */}
+        {/* Main Content*/}
         <Box flex={1}>
           <Box
             display="flex"
@@ -172,4 +168,3 @@ const Saree = () => {
 };
 
 export default Saree;
-

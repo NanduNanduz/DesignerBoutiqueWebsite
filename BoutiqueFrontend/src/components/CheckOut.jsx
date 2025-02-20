@@ -1,4 +1,3 @@
-
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
@@ -73,20 +72,19 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
         console.log("📦 Raw Cart Items from Local Storage:", cartItems);
 
         const formattedCartItems = cartItems.map((item) => ({
-          productId: item.productId || item._id, // Ensure correct product ID
+          productId: item.productId || item._id,
           name: item.name,
           size: item.size,
           price: item.price,
           quantity: item.quantity,
           image: item.image,
         }));
-      console.log("✅ Formatted Cart Items to be Sent:", formattedCartItems);
-
+        console.log("Formatted Cart Items to be Sent:", formattedCartItems);
 
         const fullAddress = `${shippingInfo.street}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}, ${shippingInfo.country}`;
         const orderData = {
           userId,
-          products: formattedCartItems, // Correct field name for the backend
+          products: formattedCartItems,
           totalAmount: amount,
           paymentMethod: "stripe",
           shippingDetails: { ...shippingInfo, address: fullAddress },
@@ -96,18 +94,18 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
         console.log("Creating order with data:", orderData);
 
         // Send order data to backend
-       await axios.post(
-         `${import.meta.env.VITE_API_URL}/order/createOrder`,
-         orderData,
-         { headers: { Authorization: `Bearer ${token}` } }
-       );
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/order/createOrder`,
+          orderData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         // Clear the cart after successful payment
         await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clearcart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        localStorage.removeItem("cart"); // Clear cart from localStorage
+        localStorage.removeItem("cart");
         setTimeout(() => navigate("/success"), 1000); // Navigate to success page
       }
     } catch (err) {
@@ -123,7 +121,10 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
       <CardElement className="form-control mb-3 p-3" />
       <button
         className="btn  w-100 py-2"
-        style={{ backgroundColor: "rgb(214, 189, 177)", color: "rgb(110, 76, 59)" }}
+        style={{
+          backgroundColor: "rgb(214, 189, 177)",
+          color: "rgb(110, 76, 59)",
+        }}
         type="submit"
         disabled={!stripe || loading}
       >
@@ -145,7 +146,6 @@ const Checkout = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("stripe");
 
-  // Delivery information state
   const [deliveryInfo, setDeliveryInfo] = useState({
     firstName: "",
     lastName: "",

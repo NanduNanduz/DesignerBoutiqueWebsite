@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -33,7 +32,6 @@ const Orders = () => {
         const data = await response.json();
         console.log("Orders fetched:", data);
 
-        // Format orders to match frontend structure
         const formattedOrders = data.map((order) => ({
           id: order._id,
           products: order.products.map((prod) => ({

@@ -27,7 +27,7 @@ const ScrollToSection = () => {
     }
   }, [location, navigate]);
 
-  return null; // This component doesn't render anything
+  return null;
 };
 
 export default ScrollToSection;

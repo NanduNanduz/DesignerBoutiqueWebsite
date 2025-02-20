@@ -1,13 +1,9 @@
-
 import React, { useState } from "react";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const AppointmentForm = () => {
-
-
-   const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -34,7 +30,6 @@ const AppointmentForm = () => {
       navigate("/thank-you");
     }, 1000);
   };
-  
 
   return (
     <div className="page-container">
@@ -103,4 +98,3 @@ const AppointmentForm = () => {
 };
 
 export default AppointmentForm;
-

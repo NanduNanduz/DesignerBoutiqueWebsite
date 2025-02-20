@@ -1,4 +1,3 @@
-
 import "./App.css";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
@@ -12,11 +11,11 @@ import Kurti from "./components/Kurti";
 import Lehenga from "./components/Lehenga";
 import Saree from "./components/Saree";
 import AdminDashboard from "./components/AdminDashboard";
-import PrivateRoutes from "./components/PrivateRoutes"; 
-import ProductItem from './components/ProductItem';
-import Cart from './components/Cart';
-import CheckOut from './components/CheckOut';
-import BookingForm from './components/BookingForm'
+import PrivateRoutes from "./components/PrivateRoutes";
+import ProductItem from "./components/ProductItem";
+import Cart from "./components/Cart";
+import CheckOut from "./components/CheckOut";
+import BookingForm from "./components/BookingForm";
 import AddItem from "./components/AddItem";
 import ListItem from "./components/ListItem";
 import OrderItem from "./components/OrderItem";
@@ -50,9 +49,8 @@ const App = () => {
         <Route path="/profile" element={<Main child={<UserProfile />} />} />
         <Route path="/success" element={<Main child={<Success />} />} />
         <Route path="/thank-you" element={<Main child={<ThankYou />} />} />
-
         <Route path="/" element={<Main child={<Home />} />} />
-
+        <Route path="/*" element={<ScrollToSection />} />
         {/*  Protected Admin Route */}
         <Route element={<PrivateRoutes requiredRole="admin" />}>
           <Route
@@ -60,11 +58,9 @@ const App = () => {
             element={<Main child={<AdminDashboard />} />}
           />
         </Route>
-        <Route path="/*" element={<ScrollToSection />} />
       </Routes>
     </div>
   );
 };
 
 export default App;
-

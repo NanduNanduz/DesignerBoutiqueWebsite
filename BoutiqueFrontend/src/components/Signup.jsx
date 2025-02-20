@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Container,
@@ -40,31 +39,13 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  // const handleSignup = () => {
-  //   if (form.password !== form.confirmPassword) {
-  //     alert("Passwords do not match!");
-  //     return;
-  //   }
-  //   axios
-  //     .post(`${import.meta.env.VITE_API_URL}/users/register`, form)
-  //     .then((res) => {
-  //       alert(res.data.message);
-  //       navigate("/login");
-  //     })
-  //     .catch((error) => {
-  //       alert("Signup failed. Try again.");
-  //     });
-  // };
-
-
-
   const handleSignup = () => {
     if (form.password !== form.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    console.log("Sending signup data:", form); // Debug log
+    console.log("Sending signup data:", form);
 
     axios
       .post(`${import.meta.env.VITE_API_URL}/users/register`, form)
@@ -81,7 +62,7 @@ const Signup = () => {
   return (
     <div>
       <Background>
-        <Container maxWidth="sm" style={{ marginTop: '20px' }}>
+        <Container maxWidth="sm" style={{ marginTop: "20px" }}>
           <SignupCard elevation={3}>
             <Typography
               variant="h4"
@@ -153,7 +134,7 @@ const Signup = () => {
           </SignupCard>
         </Container>
       </Background>
-      <Footer /> {/* Moved outside Background */}
+      <Footer />
     </div>
   );
 };

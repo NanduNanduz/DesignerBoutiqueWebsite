@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import Footer from "../components/Footer";
@@ -17,7 +16,7 @@ const Cart = () => {
 
   const loadCart = async () => {
     try {
-      const token = sessionStorage.getItem("logintoken"); // Assuming user is authenticated
+      const token = sessionStorage.getItem("logintoken");
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/cart/cartlist`,
         {
@@ -27,16 +26,15 @@ const Cart = () => {
 
       setCart(response.data);
       calculateSubtotal(response.data);
-       localStorage.setItem("cart", JSON.stringify(response.data));
+      localStorage.setItem("cart", JSON.stringify(response.data));
     } catch (error) {
       console.error("Error loading cart:", error);
     }
   };
 
-
-   useEffect(() => {
-     localStorage.setItem("cart", JSON.stringify(cart));
-   }, [cart]);
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const calculateSubtotal = (cartItems) => {
     const total = cartItems.reduce(
@@ -84,38 +82,35 @@ const Cart = () => {
     }
   };
 
-const handleProceedToCheckout = () => {
-  let cartItems;
+  const handleProceedToCheckout = () => {
+    let cartItems;
 
-  try {
-   cartItems = localStorage.getItem("cart")
-     ? JSON.parse(localStorage.getItem("cart"))
-     : cart;
+    try {
+      cartItems = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
+        : cart;
+    } catch (error) {
+      console.error("Error parsing cart from localStorage:", error);
+      cartItems = cart;
+    }
 
-  } catch (error) {
-    console.error("Error parsing cart from localStorage:", error);
-    cartItems = cart; // Fallback to the state cart
-  }
+    if (!cartItems || cartItems.length === 0) {
+      alert("Cart is empty! Add products before proceeding.");
+      return;
+    }
 
-  if (!cartItems || cartItems.length === 0) {
-    alert("Cart is empty! Add products before proceeding.");
-    return;
-  }
+    cartItems = cartItems.map((item) => ({
+      productId: item._id,
+      quantity: item.quantity,
+      size: item.size,
+      price: item.price,
+      name: item.name,
+    }));
 
-  cartItems = cartItems.map((item) => ({
-    productId: item._id,
-    quantity: item.quantity,
-    size: item.size,
-    price: item.price,
-    name: item.name,
-  }));
-
-  navigate("/checkout", {
-    state: { cart: cartItems, subtotal, shippingFee },
-  });
-};
-
-
+    navigate("/checkout", {
+      state: { cart: cartItems, subtotal, shippingFee },
+    });
+  };
 
   return (
     <div

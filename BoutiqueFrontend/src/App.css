@@ -3,16 +3,31 @@
   padding: 0;
 }
 
-
-.navbar-nav .nav-link {
-  font-family: 'Arial', sans-serif; /* Ensure all items use the same font */
-  font-size: 15px; /* Adjust size if necessary */
-  font-weight: 500; /* Match weight with other nav items */
-  color: #3A2D28; /* Adjust color if needed */
+/* -------------------Body------------------------------------- */
+body {
+  padding-top: 95px;
 }
 
 
-/* .............Home............ */
+/* ---------------Navbar--------------------------------------- */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+}
+
+.navbar-nav .nav-link {
+  font-family: 'Arial', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #3A2D28;
+}
+
+
+/* ----------------------------Home-----------------------------*/
 
 /* Hero Slider Wrapper */
 .hero-slider-wrapper {
@@ -102,7 +117,7 @@
 .product-slider-section .slick-prev::before,
 .product-slider-section .slick-next::before {
   font-size: 60px; /* Increase icon size */
-  color: #335; /* Darker color for visibility */
+  color: #335;
 }
 
 .product-slider-section .slick-prev:hover::before,
@@ -111,18 +126,15 @@
 }
 
 
-
-
-/* Book */
-
+/* ----------------------------------Booking---------------------- */
 .consultation-section {
-    background-image: url('your-image-url.jpg'); /* Replace with your background image URL */
+    /* background-image: url('your-image-url.jpg'); */
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Adjust based on your desired section height */
+    height: 100vh;
     color: rgb(136, 40, 40);
    
 }
@@ -145,11 +157,7 @@
 .book-button {
     font-size: 1.5em;
     padding: 15px 30px;
-    
-    /* background-color: #702f10;  */
      background-color: #855522;
-    /* background-color: #aa6f2f; */
-    /* Adjust color as per your theme */
     color: black;
     text-decoration: none;
     border-radius: 50px;
@@ -157,13 +165,12 @@
 }
 
 .book-button:hover {
-    background-color: #aa3803; /* Darken color on hover */
+    background-color: #aa3803;
 }
 
-/* Footer */
+/* ----------------------Footer-------------------------------- */
 
 .footer {
- 
   background-color: #222;
   color: white;
   padding: 40px 20px;
@@ -212,7 +219,7 @@
 }
 
 .footer-section ul li a:hover {
-  color: #ff6347; /* Adjust for your brand color */
+  color: #ff6347;
 }
 
 .footer-section p {
@@ -244,25 +251,8 @@
   font-size: 14px;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000; /* Ensures it's above other elements */
-}
 
-
-
-body {
-  padding-top: 95px; /* Adjust this based on your navbar height */
-}
-
-
-
-
-
-/* Appointment Form Container */
+/*--------------------------- Appointment Form Container--------------------- */
 .appointment-container {
   max-width: 600px;
   margin: 50px auto;
@@ -335,7 +325,7 @@ body {
 }
 
 
-
+/* ---------------------------------ThankYou------------------------------ */
 .thank-you-container {
   text-align: center;
   margin-top: 100px;

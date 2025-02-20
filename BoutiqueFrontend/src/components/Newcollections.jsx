@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -7,7 +6,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
 
 const Newcollections = () => {
   const prevRef = useRef(null);
@@ -42,12 +40,12 @@ const Newcollections = () => {
   }, [swiperInstance]);
 
   return (
-    <section className="new-arrival product-carousel py-5 position-relative overflow-hidden" >
+    <section className="new-arrival product-carousel py-5 position-relative overflow-hidden">
       <div className="container">
         <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 mb-3">
           <h5 className="text-uppercase">New Collections</h5>
         </div>
-       
+
         <Swiper
           modules={[Navigation]}
           spaceBetween={20}
@@ -127,16 +125,13 @@ const Newcollections = () => {
             overflow: hidden;
             border-radius: 10px;
           }
-
-        
-
           .product-image {
-  width: 100%;
-  height: 350px; /* Set a fixed height */
-  object-fit: cover; /* Ensures images maintain aspect ratio without distortion */
-  display: block;
-  transition: transform 0.3s ease-in-out;
-}
+           width: 100%;
+           height: 350px; /* Set a fixed height */
+           object-fit: cover; /* Ensures images maintain aspect ratio without distortion */
+           display: block;
+          transition: transform 0.3s ease-in-out;
+          }
 
 
           .image-holder:hover .product-image {
@@ -203,4 +198,3 @@ const Newcollections = () => {
 };
 
 export default Newcollections;
-

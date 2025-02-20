@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -30,11 +28,11 @@ const Lehenga = () => {
       .catch((error) => console.error("Error fetching lehengas:", error));
   }, []);
 
-  // Sorting logic
+  // Sorting
   const sortedLehengas = [...lehengaList].sort((a, b) => {
     if (sort === "price-low") return a.price - b.price;
     if (sort === "price-high") return b.price - a.price;
-    return 0; // "Relevant" keeps original order
+    return 0;
   });
 
   return (
