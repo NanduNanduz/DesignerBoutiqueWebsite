@@ -1,14 +1,16 @@
-
 const express = require("express");
+
 const router = express.Router();
 
-
 const userModel = require("../model/userData");
-const productModel = require("../model/productData");
-const Order = require("../model/orderData");
-const {verifyToken}  = require("../middleware/userAuth");
 
-// Add to Cart
+const productModel = require("../model/productData");
+
+const Order = require("../model/orderData");
+
+const { verifyToken } = require("../middleware/userAuth");
+
+// --------------------------------Add to Cart-----------------------------------------
 router.post("/addToCart", verifyToken, async (req, res) => {
   try {
     const { productId, size, quantity } = req.body;
@@ -52,19 +54,17 @@ router.post("/addToCart", verifyToken, async (req, res) => {
     }
 
     await user.save();
-    res
-      .status(200)
-      .json({
-        message: "Product added to cart successfully",
-        cart: user.cartData.items,
-      });
+    res.status(200).json({
+      message: "Product added to cart successfully",
+      cart: user.cartData.items,
+    });
   } catch (error) {
     console.error("Error adding to cart:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-// Get User Cart
+//---------------------------------- Get User Cart-------------------------------
 router.get("/cartlist", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -82,7 +82,7 @@ router.get("/cartlist", verifyToken, async (req, res) => {
   }
 });
 
-// Remove an Item from Cart
+// ----------------------------------------Remove an Item from Cart----------------------------
 router.delete("/deletecart/:itemId", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -95,19 +95,17 @@ router.delete("/deletecart/:itemId", verifyToken, async (req, res) => {
       (item) => item._id.toString() !== itemId
     );
     await user.save();
-    res
-      .status(200)
-      .json({
-        message: "Item removed successfully",
-        cart: user.cartData.items,
-      });
+    res.status(200).json({
+      message: "Item removed successfully",
+      cart: user.cartData.items,
+    });
   } catch (error) {
     console.error("Error deleting cart item:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-// Clear Cart
+//---------------------------- Clear Cart-----------------------------------------
 router.delete("/clearcart", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -122,7 +120,5 @@ router.delete("/clearcart", verifyToken, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
 
 module.exports = router;

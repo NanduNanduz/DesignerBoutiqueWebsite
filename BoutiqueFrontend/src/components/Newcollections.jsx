@@ -42,7 +42,7 @@ const Newcollections = () => {
   }, [swiperInstance]);
 
   return (
-    <section className="new-arrival product-carousel py-5 position-relative overflow-hidden">
+    <section className="new-arrival product-carousel py-5 position-relative overflow-hidden" >
       <div className="container">
         <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 mb-3">
           <h5 className="text-uppercase">New Collections</h5>

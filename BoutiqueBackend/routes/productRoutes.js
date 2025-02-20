@@ -10,11 +10,11 @@ const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcryptjs");
 
-const upload = require('../middleware/multer');
+const upload = require("../middleware/multer");
 
 const { v2: cloudinary } = require("cloudinary");
 
-const adminAuth = require('../middleware/adminAuth')
+const adminAuth = require("../middleware/adminAuth");
 
 
 //----------------Add Product----------------------------
@@ -100,10 +100,8 @@ router.post(
 );
 
 
-
-
 // ------------------------------List Products With Category Filtering---------------------------
-router.get('/list', async (req, res) => {
+router.get("/list", async (req, res) => {
   try {
     const { category } = req.query; // Extract category from request query
 
@@ -114,7 +112,6 @@ router.get('/list', async (req, res) => {
 
     const products = await productModel.find(filter);
     res.json({ success: true, products });
-
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({ success: false, message: error.message });
@@ -138,7 +135,6 @@ router.get("/single/:id", async (req, res) => {
   }
 });
 
-
 //--------------------------Remove Product--------------------------
 router.delete("/remove", adminAuth, async (req, res) => {
   try {
@@ -149,22 +145,18 @@ router.delete("/remove", adminAuth, async (req, res) => {
         .status(400)
         .json({ success: false, message: "Product ID is required" });
     }
-
     const deletedProduct = await productModel.findByIdAndDelete(id);
-
     if (!deletedProduct) {
       return res
         .status(404)
         .json({ success: false, message: "Product not found" });
     }
-
     res.json({ success: true, message: "Product removed successfully" });
   } catch (error) {
     console.log("Error in /remove:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
-
 
 
 //-----------------------Filtering Bestsellers---------------------
@@ -178,9 +170,4 @@ router.get("/bestsellers", async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
-
-
-

@@ -220,7 +220,7 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
-  // ✅ Function to handle smooth scrolling manually
+  //Function to handle smooth scrolling manually
   const handleNavClick = (sectionId) => {
     if (location.pathname === "/") {
       // If already on home, just scroll smoothly

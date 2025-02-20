@@ -1,14 +1,16 @@
 const express = require("express");
-const Order = require("../model/orderData"); 
-const {verifyToken} = require("../middleware/userAuth"); 
-const userModel = require("../model/userData");
-const mongoose = require("mongoose");
 
+const Order = require("../model/orderData");
+
+const { verifyToken } = require("../middleware/userAuth");
+
+const userModel = require("../model/userData");
+
+const mongoose = require("mongoose");
 
 const router = express.Router();
 
-
-// Create a New Order
+// ------------------------------Create a New Order-------------------------------
 router.post("/createOrder", verifyToken, async (req, res) => {
   try {
     const {
@@ -31,7 +33,7 @@ router.post("/createOrder", verifyToken, async (req, res) => {
 
     const newOrder = new Order({
       userId,
-      products, // ✅ Ensure products are being stored
+      products,
       totalAmount,
       paymentMethod,
       shippingDetails,
@@ -41,12 +43,11 @@ router.post("/createOrder", verifyToken, async (req, res) => {
     await newOrder.save();
     user.cartData.items = [];
     await user.save();
-
     res
       .status(200)
       .json({ message: "Order placed successfully", order: newOrder });
   } catch (error) {
-    console.error("🚨 Error creating order:", error);
+    console.error(" Error creating order:", error);
     res
       .status(500)
       .json({ message: "Internal Server Error", error: error.message });
@@ -54,9 +55,7 @@ router.post("/createOrder", verifyToken, async (req, res) => {
 });
 
 
-
-
-
+//---------------------------Get All Orders----------------------------------
 router.get("/allOrders", verifyToken, async (req, res) => {
   try {
     const orders = await Order.find().populate("userId", "name email");
@@ -67,9 +66,7 @@ router.get("/allOrders", verifyToken, async (req, res) => {
   }
 });
 
-
-
-
+//----------------------------------Update Order Status-------------------------------
 router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
   try {
     const { orderStatus } = req.body;
@@ -78,9 +75,7 @@ router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
       { orderStatus },
       { new: true }
     );
-
     if (!order) return res.status(404).json({ message: "Order not found" });
-
     res.status(200).json({ message: "Order status updated", order });
   } catch (error) {
     console.error("Error updating order status:", error);
@@ -88,10 +83,11 @@ router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
   }
 });
 
+
+//------------------------------Get Particular Order of Each User-------------------------
 router.get("/user-orders", verifyToken, async (req, res) => {
   try {
-    console.log("User from Token:", req.user); // Debugging
-
+    console.log("User from Token:", req.user);
     const orders = await Order.find({ userId: req.user.id }).populate(
       "userId",
       "name email"
@@ -110,6 +106,4 @@ router.get("/user-orders", verifyToken, async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
