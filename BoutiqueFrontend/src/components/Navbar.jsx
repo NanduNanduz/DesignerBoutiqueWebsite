@@ -19,6 +19,20 @@ const Navbar = () => {
     loadCartCount();
   }, []);
 
+ useEffect(() => {
+   const token = sessionStorage.getItem("logintoken");
+
+   // Allow users to visit both login and signup pages without being redirected
+   if (
+     !token &&
+     location.pathname !== "/login" &&
+     location.pathname !== "/signup"
+   ) {
+     navigate("/");
+   }
+ }, [location.pathname]); 
+
+
   const loadCartCount = async () => {
     try {
       const token = sessionStorage.getItem("logintoken");
@@ -38,9 +52,9 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.clear();
-    setUserRole(null);
-    window.location.href = "/";
+    sessionStorage.removeItem("logintoken");
+    sessionStorage.removeItem("role");
+    window.location.replace("/"); // Forces redirect and prevents going back
   };
 
   //Function to handle smooth scrolling manually

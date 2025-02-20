@@ -52,11 +52,13 @@ const Login = () => {
           const decodedToken = jwtDecode(token);
           sessionStorage.setItem("role", decodedToken.role);
           //  Redirect based on role
-          if (decodedToken.role === "admin") {
-            navigate("/admin-dashboard"); // Redirect admin to dashboard
-          } else {
-            navigate("/"); // Redirect normal users to home page
-          }
+          setTimeout(() => {
+            if (decodedToken.role === "admin") {
+              navigate("/admin-dashboard"); // Redirect admin to dashboard
+            } else {
+              navigate("/"); // Redirect normal users to home page
+            }
+          }, 100); // Small delay to ensure sessionStorage is set
         } else {
           navigate("/login"); // Stay on login page if failed
         }

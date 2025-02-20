@@ -52,11 +52,12 @@ const App = () => {
         <Route path="/" element={<Main child={<Home />} />} />
         <Route path="/*" element={<ScrollToSection />} />
         {/*  Protected Admin Route */}
-        <Route element={<PrivateRoutes requiredRole="admin" />}>
-          <Route
-            path="/admin-dashboard"
-            element={<Main child={<AdminDashboard />} />}
-          />
+        {/* Protected Admin Route */}
+        <Route
+          path="/admin-dashboard"
+          element={<PrivateRoutes requiredRole="admin" />}
+        >
+          <Route index element={<Main child={<AdminDashboard />} />} />
         </Route>
       </Routes>
     </div>
