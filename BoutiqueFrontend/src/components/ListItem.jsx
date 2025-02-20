@@ -73,13 +73,18 @@ const ListItems = () => {
   return (
     <AdminLayout>
       <Box sx={{ p: 3 }}>
-        <Typography variant="h5" fontWeight="bold" gutterBottom>
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          gutterBottom
+          style={{ color: "#A48374" }}
+        >
           All Products List
         </Typography>
 
         <TableContainer component={Paper}>
           <Table>
-            <TableHead>
+            <TableHead style={{ backgroundColor: "#CBAD8D" }}>
               <TableRow>
                 <TableCell>
                   <b>Image</b>
@@ -100,7 +105,10 @@ const ListItems = () => {
             </TableHead>
             <TableBody>
               {products.map((product) => (
-                <TableRow key={product._id}>
+                <TableRow
+                  key={product._id}
+                  style={{ backgroundColor: "#D1C7BD" }}
+                >
                   <TableCell>
                     <img
                       src={product.image[0]}

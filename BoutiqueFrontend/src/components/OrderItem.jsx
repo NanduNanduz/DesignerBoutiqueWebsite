@@ -93,7 +93,12 @@ const Orders = () => {
   return (
     <AdminLayout>
       <Box sx={{ p: 3 }}>
-        <Typography variant="h5" fontWeight="bold" gutterBottom>
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          gutterBottom
+          style={{ color: "#A48374" }}
+        >
           Order Page
         </Typography>
 
@@ -101,7 +106,11 @@ const Orders = () => {
           <Typography>No orders available</Typography>
         ) : (
           orders.map((order) => (
-            <Paper key={order.id} sx={{ p: 2, mb: 2 }}>
+            <Paper
+              key={order.id}
+              sx={{ p: 2, mb: 2 }}
+              style={{ backgroundColor: "#D1C7BD" }}
+            >
               <Box display="flex" alignItems="center">
                 {/* Order Details */}
                 <Box flexGrow={1}>
