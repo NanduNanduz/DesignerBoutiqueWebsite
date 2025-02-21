@@ -397,17 +397,27 @@ const AddItem = () => {
           <Box sx={{ width: "100%", textAlign: "center", mb: 2 }}>
             <input type="file" multiple onChange={handleImageUpload} />
             {/* Show existing images if editing */}
-            {editingProduct &&
-              formData.images.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="product preview"
-                  width="50"
-                  height="50"
-                  style={{ margin: "5px", borderRadius: "8px" }}
-                />
-              ))}
+            {editingProduct && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 1,
+                  mt: 2,
+                }}
+              >
+                {formData.images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt="product preview"
+                    width="50"
+                    height="50"
+                    style={{ borderRadius: "8px" }}
+                  />
+                ))}
+              </Box>
+            )}
           </Box>
 
           {/* Product Name */}
