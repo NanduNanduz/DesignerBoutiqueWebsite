@@ -170,4 +170,90 @@ router.get("/bestsellers", async (req, res) => {
   }
 });
 
+
+
+
+
+//----------------Update Product----------------------------
+router.put(
+  "/update/:id",
+  adminAuth,
+  upload.fields([
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+    { name: "image3", maxCount: 1 },
+    { name: "image4", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating Product ID:", id);
+      console.log("Received Request Body:", req.body);
+      console.log("Received Files:", req.files);
+
+      const {
+        name,
+        description,
+        price,
+        category,
+        subCategory,
+        sizes,
+        bestseller,
+      } = req.body;
+
+      let parsedSizes;
+      try {
+        parsedSizes = JSON.parse(sizes);
+      } catch (err) {
+        parsedSizes = sizes ? sizes.split(",").map((size) => size.trim()) : [];
+      }
+
+      // Get uploaded images
+      const images = ["image1", "image2", "image3", "image4"]
+        .map((key) => (req.files[key] ? req.files[key][0] : null))
+        .filter(Boolean);
+
+      let imageUrls = [];
+      if (images.length > 0) {
+        imageUrls = await Promise.all(
+          images.map(async (item) => {
+            let result = await cloudinary.uploader.upload(item.path, {
+              resource_type: "image",
+            });
+            return result.secure_url;
+          })
+        );
+      }
+
+      const updatedData = {
+        name,
+        description,
+        category,
+        price: Number(price),
+        subCategory,
+        bestseller: bestseller === "true",
+        sizes: parsedSizes,
+      };
+
+      if (imageUrls.length > 0) {
+        updatedData.image = imageUrls;
+      }
+
+      const updatedProduct = await productModel.findByIdAndUpdate(id, updatedData, {
+        new: true,
+      });
+
+      if (!updatedProduct) {
+        return res.status(404).json({ success: false, message: "Product not found" });
+      }
+
+      res.json({ success: true, message: "Product Updated Successfully", product: updatedProduct });
+    } catch (error) {
+      console.log("Error in /update:", error.message);
+      res.status(500).json({ success: false, message: error.message });
+    }
+  }
+);
+
+
 module.exports = router;
