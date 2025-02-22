@@ -85,24 +85,62 @@ router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
 
 
 //------------------------------Get Particular Order of Each User-------------------------
+// router.get("/user-orders", verifyToken, async (req, res) => {
+//   try {
+//     console.log("User from Token:", req.user);
+//     const orders = await Order.find({ userId: req.user.id }).populate(
+//       "userId",
+//       "name email"
+//     );
+
+//     if (orders.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "No orders found" });
+//     }
+
+//     res.status(200).json(orders);
+//   } catch (error) {
+//     console.error("Error fetching user orders:", error);
+//     res.status(500).json({ success: false, message: "Server error" });
+//   }
+// });
+
+
+
 router.get("/user-orders", verifyToken, async (req, res) => {
   try {
-    console.log("User from Token:", req.user);
     const orders = await Order.find({ userId: req.user.id }).populate(
       "userId",
       "name email"
     );
 
-    if (orders.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No orders found" });
+    if (!orders || orders.length === 0) {
+      return res.status(200).json([]); // Return an empty array instead of 404
     }
 
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error fetching user orders:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+// Get user profile using token
+router.get("/user-profile", verifyToken, async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user.id).select("-password"); // Exclude password from response
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

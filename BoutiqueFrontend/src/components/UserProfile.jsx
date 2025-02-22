@@ -10,37 +10,104 @@ const UserProfile = () => {
   useEffect(() => {
     const token = sessionStorage.getItem("logintoken");
 
-    const fetchOrders = async () => {
-      try {
-        console.log("Fetching orders with token:", token);
+    // const fetchOrders = async () => {
+    //   try {
+    //     console.log("Fetching orders with token:", token);
 
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/order/user-orders`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+    //     const response = await fetch(
+    //       `${import.meta.env.VITE_API_URL}/order/user-orders`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${token}`,
+    //           "Content-Type": "application/json",
+    //         },
+    //       }
+    //     );
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch orders. Status: ${response.status}`);
-        }
+    //     if (!response.ok) {
+    //       throw new Error(`Failed to fetch orders. Status: ${response.status}`);
+    //     }
 
-        const data = await response.json();
-        console.log("Orders Data:", data);
+    //     const data = await response.json();
+    //     console.log("Orders Data:", data);
 
-        setOrders(data);
+    //     setOrders(data);
 
-        //Extract the user's name from the first order (if orders exist)
-        if (data.length > 0 && data[0].userId) {
-          setUser({ name: data[0].userId.name, email: data[0].userId.email });
-        }
-      } catch (error) {
-        console.error("Error fetching orders:", error);
+    //     //Extract the user's name from the first order (if orders exist)
+    //     if (data.length > 0 && data[0].userId) {
+    //       setUser({ name: data[0].userId.name, email: data[0].userId.email });
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching orders:", error);
+    //   }
+    // };
+
+
+
+
+const fetchOrders = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/order/user-orders`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
-    };
+    );
+
+    if (response.status === 404) {
+      console.warn("No orders found, fetching user profile...");
+      fetchUserDetails();
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch orders. Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    setOrders(data);
+
+    if (data.length > 0 && data[0].userId) {
+      setUser({ name: data[0].userId.name, email: data[0].userId.email });
+    } else {
+      fetchUserDetails(); // Fetch user details if no orders found
+    }
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+  }
+};
+
+// Fetch user details if orders are not found
+const fetchUserDetails = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/order/user-profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch user details. Status: ${response.status}`
+      );
+    }
+
+    const userData = await response.json();
+    setUser({ name: userData.name, email: userData.email });
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+  }
+};
+
+
+
 
     if (token) {
       fetchOrders();
@@ -112,9 +179,14 @@ const UserProfile = () => {
               <Typography>
                 <strong>Order Status:</strong> {order.orderStatus}
               </Typography>
-              <Typography>
+              {/* <Typography>
                 <strong>Order Date:</strong>{" "}
                 {new Date(order.createdAt).toLocaleDateString()}
+              </Typography> */}
+
+              <Typography>
+                <strong>Order Date:</strong>{" "}
+                {new Date(order.createdAt).toLocaleDateString("en-GB")}
               </Typography>
 
               <Divider sx={{ my: 2, bgcolor: "#CBAD8D" }} />
