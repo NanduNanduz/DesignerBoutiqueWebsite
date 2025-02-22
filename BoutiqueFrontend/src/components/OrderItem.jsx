@@ -138,7 +138,11 @@ const Orders = () => {
                   </Typography>
                   <Typography>Method: {order.method}</Typography>
                   <Typography>Payment: {order.paymentStatus}</Typography>
-                  <Typography>Date: {order.date}</Typography>
+                  {/* <Typography>Date: {order.date}</Typography> */}
+
+                  <Typography>
+                    Date: {new Date(order.date).toLocaleDateString("en-GB")}
+                  </Typography>
                   <Typography>
                     <strong>Total Amount: </strong>₹{order.totalAmount}
                   </Typography>
