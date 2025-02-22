@@ -116,6 +116,9 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
     setLoading(false);
   };
 
+
+
+
   return (
     <form onSubmit={handleSubmit}>
       <CardElement className="form-control mb-3 p-3" />
@@ -138,6 +141,7 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
 
 const Checkout = () => {
   const location = useLocation();
+    const navigate = useNavigate(); 
   const { cart, subtotal, shippingFee } = location.state || {
     cart: [],
     subtotal: 0,
@@ -165,6 +169,66 @@ const Checkout = () => {
       [name]: value,
     }));
   };
+
+
+
+  
+const handleCODOrder = async (deliveryInfo) => {
+  try {
+    const token = sessionStorage.getItem("logintoken");
+    if (!token) {
+      alert("No token found. Please log in.");
+      return;
+    }
+
+    const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+    const userId = decodedToken.id || decodedToken.userId;
+
+    if (!userId) {
+      alert("User not found. Please log in.");
+      return;
+    }
+
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const formattedCartItems = cartItems.map((item) => ({
+      productId: item.productId || item._id,
+      name: item.name,
+      size: item.size,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+    }));
+
+    const fullAddress = `${deliveryInfo.street}, ${deliveryInfo.city}, ${deliveryInfo.state} ${deliveryInfo.zip}, ${deliveryInfo.country}`;
+
+    const orderData = {
+      userId,
+      products: formattedCartItems,
+      totalAmount: subtotal + shippingFee,
+      paymentMethod: "cod",
+      shippingDetails: { ...deliveryInfo, address: fullAddress },
+      paymentStatus: "Pending", // Payment status is pending for COD
+    };
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/order/createOrder`,
+      orderData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("COD Order placed:", response.data);
+
+    await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clearcart`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    localStorage.removeItem("cart");
+    navigate("/success");
+  } catch (error) {
+    console.error("Error placing COD order:", error);
+    alert("Failed to place COD order.");
+  }
+};
 
   return (
     <>
@@ -364,14 +428,16 @@ const Checkout = () => {
                 />
               </Elements>
             )}
+
             {paymentMethod === "cod" && (
               <div className="text-center">
                 <button
-                  className="btn  w-100 py-2"
+                  className="btn w-100 py-2"
                   style={{
                     color: "rgb(143, 112, 79)",
                     backgroundColor: "rgb(214, 189, 177)",
                   }}
+                  onClick={() => handleCODOrder(deliveryInfo)} // Pass deliveryInfo here
                 >
                   Confirm Order (Cash on Delivery)
                 </button>

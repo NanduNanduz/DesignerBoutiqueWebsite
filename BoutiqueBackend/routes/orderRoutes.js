@@ -11,6 +11,52 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 // ------------------------------Create a New Order-------------------------------
+// router.post("/createOrder", verifyToken, async (req, res) => {
+//   try {
+//     const {
+//       products,
+//       totalAmount,
+//       paymentStatus,
+//       paymentMethod,
+//       shippingDetails,
+//     } = req.body;
+//     const userId = req.user.id;
+
+//     if (!products || products.length === 0) {
+//       return res
+//         .status(400)
+//         .json({ message: "No products found in the order" });
+//     }
+
+//     const user = await userModel.findById(userId);
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     const newOrder = new Order({
+//       userId,
+//       products,
+//       totalAmount,
+//       paymentMethod,
+//       shippingDetails,
+//       paymentStatus,
+//     });
+
+//     await newOrder.save();
+//     user.cartData.items = [];
+//     await user.save();
+//     res
+//       .status(200)
+//       .json({ message: "Order placed successfully", order: newOrder });
+//   } catch (error) {
+//     console.error(" Error creating order:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Internal Server Error", error: error.message });
+//   }
+// });
+
+
+
+
 router.post("/createOrder", verifyToken, async (req, res) => {
   try {
     const {
@@ -37,17 +83,18 @@ router.post("/createOrder", verifyToken, async (req, res) => {
       totalAmount,
       paymentMethod,
       shippingDetails,
-      paymentStatus,
+      paymentStatus: paymentMethod === "cod" ? "Pending" : paymentStatus,
     });
 
     await newOrder.save();
     user.cartData.items = [];
     await user.save();
+
     res
       .status(200)
       .json({ message: "Order placed successfully", order: newOrder });
   } catch (error) {
-    console.error(" Error creating order:", error);
+    console.error("Error creating order:", error);
     res
       .status(500)
       .json({ message: "Internal Server Error", error: error.message });
