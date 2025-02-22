@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
     if (password.length < 8) {
       return res.json({
         success: false,
-        message: "Please enter a strong password",
+        message: "Please enter a strong 8-character password",
       });
     }
 

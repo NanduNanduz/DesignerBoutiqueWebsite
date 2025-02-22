@@ -39,25 +39,27 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleSignup = () => {
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+ const handleSignup = () => {
+   if (form.password !== form.confirmPassword) {
+     alert("Passwords do not match!");
+     return;
+   }
 
-    console.log("Sending signup data:", form);
+   axios
+     .post(`${import.meta.env.VITE_API_URL}/users/register`, form)
+     .then((res) => {
 
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/users/register`, form)
-      .then((res) => {
-        alert(res.data.message);
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.error("Signup error:", error.response?.data || error.message);
-        alert("Signup failed. Try again.");
-      });
-  };
+       if (res.data.success) {
+         alert("Registration successful!");
+         navigate("/login"); // Only navigate if signup was successful
+       }
+     })
+     .catch((error) => {
+       console.error("Signup error:", error.response?.data || error.message);
+       alert("Signup failed. Try again.");
+     });
+ };
+
 
   return (
     <div>
