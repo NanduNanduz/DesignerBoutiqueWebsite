@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
 const AppointmentForm = () => {
   const navigate = useNavigate();
+
+const [minDate, setMinDate] = useState("");
+ useEffect(() => {
+   const today = new Date();
+   today.setMinutes(today.getMinutes() - today.getTimezoneOffset()); // Adjust for timezone
+   setMinDate(today.toISOString().split("T")[0]);
+ }, []);
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -62,15 +70,16 @@ const AppointmentForm = () => {
               onChange={handleChange}
               required
             /> */}
-
-            <input
-              type="date"
-              name="preferredDate"
-              value={formData.preferredDate}
-              onChange={handleChange}
-              min={new Date().toISOString().split("T")[0]} // Restrict past dates
-              required
-            />
+            {minDate && (
+              <input
+                type="date"
+                name="preferredDate"
+                value={formData.preferredDate}
+                onChange={handleChange}
+                min={minDate}
+                required
+              />
+            )}
 
             <input
               type="text"
