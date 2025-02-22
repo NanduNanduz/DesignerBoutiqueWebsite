@@ -12,7 +12,6 @@ const ProductItem = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [cart, setCart] = useState([]);
 
-  // Fetch the cart data when the component is mounted
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -39,7 +38,6 @@ const ProductItem = () => {
     fetchCart();
   }, []);
 
-  // Fetch the product data
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/products/single/${id}`)
@@ -113,23 +111,16 @@ const ProductItem = () => {
       <div className="container my-5 flex-grow-1">
         <div className="row">
           <div className="col-md-5">
-            <div className="d-flex flex-column">
-              <img
-                src={selectedImage}
-                alt={product.name}
-                className="img-fluid rounded mb-3"
-                style={{ border: "2px solid #3A2D28" }}
-                onError={(e) => (e.target.src = "/placeholder.jpg")}
-              />
-
-              <div className="d-flex">
+            <div className="d-flex">
+              {/* Thumbnails on the left in a column */}
+              <div className="d-flex flex-column me-3">
                 {Array.isArray(product.image) &&
                   product.image.map((img, index) => (
                     <img
                       key={index}
                       src={img}
                       alt="Thumbnail"
-                      className={`img-thumbnail me-2 ${
+                      className={`img-thumbnail mb-2 ${
                         selectedImage === img ? "border border-dark" : ""
                       }`}
                       style={{
@@ -143,6 +134,15 @@ const ProductItem = () => {
                     />
                   ))}
               </div>
+
+              {/* Main Image */}
+              <img
+                src={selectedImage}
+                alt={product.name}
+                className="img-fluid rounded"
+                style={{ border: "2px solid #3A2D28", maxWidth: "400px" }}
+                onError={(e) => (e.target.src = "/placeholder.jpg")}
+              />
             </div>
           </div>
 
