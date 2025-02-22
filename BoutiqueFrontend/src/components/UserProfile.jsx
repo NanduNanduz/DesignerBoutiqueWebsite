@@ -68,7 +68,10 @@ const fetchOrders = async () => {
     }
 
     const data = await response.json();
-    setOrders(data);
+    // Sort orders by createdAt in descending order (latest first)
+    setOrders(
+      data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    );
 
     if (data.length > 0 && data[0].userId) {
       setUser({ name: data[0].userId.name, email: data[0].userId.email });
