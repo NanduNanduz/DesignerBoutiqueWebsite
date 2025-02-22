@@ -55,13 +55,23 @@ const AppointmentForm = () => {
             />
           </div>
           <div className="form-row">
-            <input
+            {/* <input
               type="date"
               name="preferredDate"
               value={formData.preferredDate}
               onChange={handleChange}
               required
+            /> */}
+
+            <input
+              type="date"
+              name="preferredDate"
+              value={formData.preferredDate}
+              onChange={handleChange}
+              min={new Date().toISOString().split("T")[0]} // Restrict past dates
+              required
             />
+
             <input
               type="text"
               name="address"
