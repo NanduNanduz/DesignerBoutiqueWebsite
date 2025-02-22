@@ -114,21 +114,50 @@ router.get("/allOrders", verifyToken, async (req, res) => {
 });
 
 //----------------------------------Update Order Status-------------------------------
+// router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
+//   try {
+//     const { orderStatus } = req.body;
+//     const order = await Order.findByIdAndUpdate(
+//       req.params.id,
+//       { orderStatus },
+//       { new: true }
+//     );
+//     if (!order) return res.status(404).json({ message: "Order not found" });
+//     res.status(200).json({ message: "Order status updated", order });
+//   } catch (error) {
+//     console.error("Error updating order status:", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
+
+
+
 router.put("/updateOrderStatus/:id", verifyToken, async (req, res) => {
   try {
     const { orderStatus } = req.body;
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      { orderStatus },
-      { new: true }
-    );
-    if (!order) return res.status(404).json({ message: "Order not found" });
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Update order status
+    order.orderStatus = orderStatus;
+
+    // If order is COD and marked as Delivered, update paymentStatus to "Paid"
+    if (order.paymentMethod === "cod" && orderStatus === "Delivered") {
+      order.paymentStatus = "Paid";
+    }
+
+    await order.save();
+
     res.status(200).json({ message: "Order status updated", order });
   } catch (error) {
     console.error("Error updating order status:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 
 
 //------------------------------Get Particular Order of Each User-------------------------
