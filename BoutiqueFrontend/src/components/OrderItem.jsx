@@ -14,6 +14,49 @@ const Orders = () => {
 
   // Fetch orders from backend
   useEffect(() => {
+    // const fetchOrders = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `${import.meta.env.VITE_API_URL}/order/allOrders`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${sessionStorage.getItem("logintoken")}`,
+    //         },
+    //       }
+    //     );
+
+    //     if (!response.ok) {
+    //       throw new Error("Failed to fetch orders");
+    //     }
+
+    //     const data = await response.json();
+    //     console.log("Orders fetched:", data);
+
+    //     const formattedOrders = data.map((order) => ({
+    //       id: order._id,
+    //       products: order.products.map((prod) => ({
+    //         image: prod.image || "/default.jpg",
+    //         name: prod.name || "Unknown Product",
+    //         quantity: prod.quantity || 1,
+    //         size: prod.size || "N/A",
+    //       })),
+    //       totalAmount: order.totalAmount,
+    //       customer: order.userId?.name || "Unknown Customer",
+    //       address: `${order.shippingDetails.address}, ${order.shippingDetails.city}, ${order.shippingDetails.state}, ${order.shippingDetails.zip}, ${order.shippingDetails.country}`,
+    //       method: order.paymentMethod.toUpperCase(),
+    //       paymentStatus: order.paymentStatus,
+    //       date: new Date(order.createdAt).toLocaleDateString(),
+    //       status: order.orderStatus,
+    //     }));
+
+    //     setOrders(formattedOrders);
+    //   } catch (error) {
+    //     console.error("Error fetching orders:", error);
+    //   }
+    // };
+
+
+
     const fetchOrders = async () => {
       try {
         const response = await fetch(
@@ -45,11 +88,14 @@ const Orders = () => {
           address: `${order.shippingDetails.address}, ${order.shippingDetails.city}, ${order.shippingDetails.state}, ${order.shippingDetails.zip}, ${order.shippingDetails.country}`,
           method: order.paymentMethod.toUpperCase(),
           paymentStatus: order.paymentStatus,
-          date: new Date(order.createdAt).toLocaleDateString(),
+          date: new Date(order.createdAt).toISOString(), // Store as ISO string
           status: order.orderStatus,
         }));
 
-        setOrders(formattedOrders);
+        // Sort orders by date (latest first)
+        setOrders(
+          formattedOrders.sort((a, b) => new Date(b.date) - new Date(a.date))
+        );
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
