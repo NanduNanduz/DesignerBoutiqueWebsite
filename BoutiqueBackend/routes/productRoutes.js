@@ -172,8 +172,6 @@ router.get("/bestsellers", async (req, res) => {
 
 
 
-
-
 //----------------Update Product----------------------------
 router.put(
   "/update/:id",
