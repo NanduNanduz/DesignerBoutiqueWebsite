@@ -19,106 +19,6 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   try {
-  //     const token = sessionStorage.getItem("logintoken");
-  //     if (!token) {
-  //       setError("No token found. Please log in.");
-  //       return;
-  //     }
-
-  //     console.log("Sending Amount to Backend:", amount);
-
-  //     // Make payment request
-  //     const paymentResponse = await axios.post(
-  //       `${import.meta.env.VITE_API_URL}/users/payment`,
-  //       { amount },
-  //       { headers: { "Content-Type": "application/json" } }
-  //     );
-
-  //     console.log("Response from Backend:", paymentResponse.data);
-  //     const { clientSecret } = paymentResponse.data;
-
-  //     if (!clientSecret) {
-  //       throw new Error("Failed to retrieve client secret.");
-  //     }
-
-  //     // Confirm payment
-  //     const { paymentIntent, error } = await stripe.confirmCardPayment(
-  //       clientSecret,
-  //       {
-  //         payment_method: { card: elements.getElement(CardElement) },
-  //       }
-  //     );
-
-  //     if (error) {
-  //       setError(error.message);
-  //     } else {
-  //       setSuccess("Payment successful!");
-
-  //       // Extract user ID from token
-  //       const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-  //       const userId = decodedToken.id || decodedToken.userId; // Ensure it matches backend structure
-
-  //       if (!userId) {
-  //         setError("User not found. Please log in.");
-  //         return;
-  //       }
-
-  //       const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-  //       console.log("📦 Raw Cart Items from Local Storage:", cartItems);
-
-  //       const formattedCartItems = cartItems.map((item) => ({
-  //         productId: item.productId || item._id,
-  //         name: item.name,
-  //         size: item.size,
-  //         price: item.price,
-  //         quantity: item.quantity,
-  //         image: item.image,
-  //       }));
-  //       console.log("Formatted Cart Items to be Sent:", formattedCartItems);
-
-  //       const fullAddress = `${shippingInfo.street}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}, ${shippingInfo.country}`;
-  //       const orderData = {
-  //         userId,
-  //         products: formattedCartItems,
-  //         totalAmount: amount,
-  //         paymentMethod: "stripe",
-  //         shippingDetails: { ...shippingInfo, address: fullAddress },
-  //         paymentStatus: "Paid",
-  //       };
-
-  //       console.log("Creating order with data:", orderData);
-
-  //       // Send order data to backend
-  //       await axios.post(
-  //         `${import.meta.env.VITE_API_URL}/order/createOrder`,
-  //         orderData,
-  //         { headers: { Authorization: `Bearer ${token}` } }
-  //       );
-
-  //       // Clear the cart after successful payment
-  //       await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clearcart`, {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       });
-
-  //       localStorage.removeItem("cart");
-  //       setTimeout(() => navigate("/success"), 1000); // Navigate to success page
-  //     }
-  //   } catch (err) {
-  //     console.error("Error:", err.response?.data || err.message);
-  //     setError(`Payment failed: ${err.response?.data?.error || err.message}`);
-  //   }
-
-  //   setLoading(false);
-  // };
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -229,7 +129,6 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
     setLoading(false);
   };
 
-
   return (
     <form onSubmit={handleSubmit}>
       <CardElement className="form-control mb-3 p-3" />
@@ -252,7 +151,7 @@ const CheckoutForm = ({ amount, shippingInfo }) => {
 
 const Checkout = () => {
   const location = useLocation();
-    const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { cart, subtotal, shippingFee } = location.state || {
     cart: [],
     subtotal: 0,
@@ -281,135 +180,72 @@ const Checkout = () => {
     }));
   };
 
-
-
-  
-// const handleCODOrder = async (deliveryInfo) => {
-//   try {
-//     const token = sessionStorage.getItem("logintoken");
-//     if (!token) {
-//       alert("No token found. Please log in.");
-//       return;
-//     }
-
-//     const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-//     const userId = decodedToken.id || decodedToken.userId;
-
-//     if (!userId) {
-//       alert("User not found. Please log in.");
-//       return;
-//     }
-
-//     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-//     const formattedCartItems = cartItems.map((item) => ({
-//       productId: item.productId || item._id,
-//       name: item.name,
-//       size: item.size,
-//       price: item.price,
-//       quantity: item.quantity,
-//       image: item.image,
-//     }));
-
-//     const fullAddress = `${deliveryInfo.street}, ${deliveryInfo.city}, ${deliveryInfo.state} ${deliveryInfo.zip}, ${deliveryInfo.country}`;
-
-//     const orderData = {
-//       userId,
-//       products: formattedCartItems,
-//       totalAmount: subtotal + shippingFee,
-//       paymentMethod: "cod",
-//       shippingDetails: { ...deliveryInfo, address: fullAddress },
-//       paymentStatus: "Pending", // Payment status is pending for COD
-//     };
-
-//     const response = await axios.post(
-//       `${import.meta.env.VITE_API_URL}/order/createOrder`,
-//       orderData,
-//       { headers: { Authorization: `Bearer ${token}` } }
-//     );
-
-//     console.log("COD Order placed:", response.data);
-
-//     await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clearcart`, {
-//       headers: { Authorization: `Bearer ${token}` },
-//     });
-
-//     localStorage.removeItem("cart");
-//     navigate("/success");
-//   } catch (error) {
-//     console.error("Error placing COD order:", error);
-//     alert("Failed to place COD order.");
-//   }
-// };
-
-
-
-
-const handleCODOrder = async (deliveryInfo) => {
-  // Check if all required fields are filled
-  for (const key in deliveryInfo) {
-    if (!deliveryInfo[key].trim()) {
-      alert("Please fill out the delivery information form before proceeding.");
-      return;
-    }
-  }
-
-  try {
-    const token = sessionStorage.getItem("logintoken");
-    if (!token) {
-      alert("No token found. Please log in.");
-      return;
+  const handleCODOrder = async (deliveryInfo) => {
+    // Check if all required fields are filled
+    for (const key in deliveryInfo) {
+      if (!deliveryInfo[key].trim()) {
+        alert(
+          "Please fill out the delivery information form before proceeding."
+        );
+        return;
+      }
     }
 
-    const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-    const userId = decodedToken.id || decodedToken.userId;
+    try {
+      const token = sessionStorage.getItem("logintoken");
+      if (!token) {
+        alert("No token found. Please log in.");
+        return;
+      }
 
-    if (!userId) {
-      alert("User not found. Please log in.");
-      return;
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+      const userId = decodedToken.id || decodedToken.userId;
+
+      if (!userId) {
+        alert("User not found. Please log in.");
+        return;
+      }
+
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      const formattedCartItems = cartItems.map((item) => ({
+        productId: item.productId || item._id,
+        name: item.name,
+        size: item.size,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      }));
+
+      const fullAddress = `${deliveryInfo.street}, ${deliveryInfo.city}, ${deliveryInfo.state} ${deliveryInfo.zip}, ${deliveryInfo.country}`;
+
+      const orderData = {
+        userId,
+        products: formattedCartItems,
+        totalAmount: subtotal + shippingFee,
+        paymentMethod: "cod",
+        shippingDetails: { ...deliveryInfo, address: fullAddress },
+        paymentStatus: "Pending", // Payment status is pending for COD
+      };
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/order/createOrder`,
+        orderData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log("COD Order placed:", response.data);
+
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clearcart`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      localStorage.removeItem("cart");
+      navigate("/success");
+    } catch (error) {
+      console.error("Error placing COD order:", error);
+      alert("Something went wrong while placing your order. Please try again.");
     }
-
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    const formattedCartItems = cartItems.map((item) => ({
-      productId: item.productId || item._id,
-      name: item.name,
-      size: item.size,
-      price: item.price,
-      quantity: item.quantity,
-      image: item.image,
-    }));
-
-    const fullAddress = `${deliveryInfo.street}, ${deliveryInfo.city}, ${deliveryInfo.state} ${deliveryInfo.zip}, ${deliveryInfo.country}`;
-
-    const orderData = {
-      userId,
-      products: formattedCartItems,
-      totalAmount: subtotal + shippingFee,
-      paymentMethod: "cod",
-      shippingDetails: { ...deliveryInfo, address: fullAddress },
-      paymentStatus: "Pending", // Payment status is pending for COD
-    };
-
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/order/createOrder`,
-      orderData,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    console.log("COD Order placed:", response.data);
-
-    await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clearcart`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    localStorage.removeItem("cart");
-    navigate("/success");
-  } catch (error) {
-    console.error("Error placing COD order:", error);
-    alert("Something went wrong while placing your order. Please try again.");
-  }
-};
-
-
+  };
 
   return (
     <>

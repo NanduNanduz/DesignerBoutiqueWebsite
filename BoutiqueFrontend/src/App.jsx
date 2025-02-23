@@ -31,8 +31,6 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/login" element={<Main child={<Login />} />} />
         <Route path="/signup" element={<Main child={<Signup />} />} />
-        {/* <Route path="/new-collections" element={<Newcollections />} />
-        <Route path="/book-appointment" element={<Bookappointment />} /> */}
         <Route path="/kurti" element={<Main child={<Kurti />} />} />
         <Route path="/lehenga" element={<Main child={<Lehenga />} />} />
         <Route path="/saree" element={<Main child={<Saree />} />} />
@@ -52,7 +50,6 @@ const App = () => {
         <Route path="/" element={<Main child={<Home />} />} />
         <Route path="/*" element={<ScrollToSection />} />
         {/*  Protected Admin Route */}
-        {/* Protected Admin Route */}
         <Route
           path="/admin-dashboard"
           element={<PrivateRoutes requiredRole="admin" />}

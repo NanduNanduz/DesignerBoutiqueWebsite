@@ -211,7 +211,7 @@ const Cart = () => {
                   <button
                     className="btn w-100"
                     style={{ backgroundColor: "#3A2D28", color: "white" }}
-                    onClick={handleProceedToCheckout} // Call the new function here
+                    onClick={handleProceedToCheckout}
                   >
                     PROCEED TO CHECKOUT
                   </button>

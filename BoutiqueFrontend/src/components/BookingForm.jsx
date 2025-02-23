@@ -63,13 +63,6 @@ const [minDate, setMinDate] = useState("");
             />
           </div>
           <div className="form-row">
-            {/* <input
-              type="date"
-              name="preferredDate"
-              value={formData.preferredDate}
-              onChange={handleChange}
-              required
-            /> */}
             {minDate && (
               <input
                 type="date"

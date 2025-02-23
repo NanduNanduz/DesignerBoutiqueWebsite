@@ -170,32 +170,6 @@ const ProductItem = () => {
               {product.description || "No description available."}
             </p>
 
-            {/* <div className="mb-3">
-              <h5 className="fw-bold">Select Size</h5>
-              <div className="d-flex">
-                {["S", "M", "L", "XL", "XXL"].map((size) => (
-                  <button
-                    key={size}
-                    className={`btn me-2 ${
-                      selectedSize === size ? "btn-dark" : "btn-outline-dark"
-                    }`}
-                    style={{
-                      minWidth: "50px",
-                      backgroundColor:
-                        selectedSize === size ? "#CBAD8D" : "#D1C7BD",
-                      color: selectedSize === size ? "white" : "black",
-                    }}
-                    onClick={() => handleSizeSelect(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-              {errorMessage && (
-                <p className="text-danger mt-2">{errorMessage}</p>
-              )}
-            </div> */}
-
             <div className="mb-3">
               <h5 className="fw-bold">Select Size</h5>
               <div className="d-flex">
