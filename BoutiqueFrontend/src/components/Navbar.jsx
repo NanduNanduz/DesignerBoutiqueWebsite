@@ -19,18 +19,28 @@ const Navbar = () => {
     loadCartCount();
   }, []);
 
- useEffect(() => {
-   const token = sessionStorage.getItem("logintoken");
+useEffect(() => {
+  const token = sessionStorage.getItem("logintoken");
+  const role = sessionStorage.getItem("role");
 
-   // Allow users to visit both login and signup pages without being redirected
-   if (
-     !token &&
-     location.pathname !== "/login" &&
-     location.pathname !== "/signup"
-   ) {
-     navigate("/");
-   }
- }, [location.pathname]); 
+  // Prevent access to admin page if not logged in as admin
+  if (!token || role !== "admin") {
+    if (location.pathname.startsWith("/admin")) {
+      navigate("/login");
+    }
+  }
+
+  // Prevent access to cart if not logged in
+  if (!token && location.pathname === "/cart") {
+    navigate("/login");
+  }
+
+  // Clear cache to prevent back button issues
+  window.history.pushState(null, "", window.location.href);
+  window.addEventListener("popstate", () => {
+    sessionStorage.getItem("logintoken") || window.location.replace("/login");
+  });
+}, [location.pathname]); 
 
 
   const loadCartCount = async () => {
