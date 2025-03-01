@@ -240,7 +240,7 @@ const Checkout = () => {
       });
 
       localStorage.removeItem("cart");
-      navigate("/success");
+      navigate("/order-placed");
     } catch (error) {
       console.error("Error placing COD order:", error);
       alert("Something went wrong while placing your order. Please try again.");
